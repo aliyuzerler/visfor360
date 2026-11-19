@@ -66,9 +66,15 @@ class ShellPagesTest extends TestCase
     #[Test]
     public function placeholder_ekranlar_sahte_kpi_icermez(): void
     {
-        $content = $this->get('/app/dashboard')->getContent();
+        // Placeholder (Faz 2 bekleyen) ekranlarda sahte KPI/çalışmayan buton bulunmaz.
+        // Dashboard artık gerçek aggregate KPI'ları sunar (Prompt 10) — bu yüzden
+        // kontrol placeholder ekranlar üzerinden yapılır.
+        $reports = $this->get('/app/reports')->getContent();
+        $this->assertStringNotContainsStringIgnoringCase('kpi', $reports);
 
-        // Placeholder ekranlarda sahte KPI/çalışmayan buton bulunmaz.
-        $this->assertStringNotContainsStringIgnoringCase('kpi', $content);
+        // Dashboard'da wireframe etiketi kalmamıştır; gerçek kpi props'u vardır.
+        $dashboard = $this->get('/app/dashboard')->getContent();
+        $this->assertStringNotContainsStringIgnoringCase('Wireframe', $dashboard);
+        $this->assertStringContainsString('"kpi"', $dashboard);
     }
 }
