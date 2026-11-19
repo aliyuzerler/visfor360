@@ -16,16 +16,6 @@ class PlaceholderController extends Controller
      * @var array<string, array{title: string, description: string, subScreens: string[], phase: string}>
      */
     private const PAGES = [
-        'customers' => [
-            'title' => 'Müşteriler',
-            'description' => '360° müşteri ve kurumsal sicil yönetimi. Firma kartları, yetkililer, dinamik özel alanlar, evraklar ve aktivite geçmişi bu modülde birleşir.',
-            'subScreens' => [
-                'Müşteri listesi (sunucu tarafı sayfalama/arama/filtre)',
-                'Yeni müşteri oluşturma formu',
-                'Firma detayı sekmeleri: Genel, Yetkililer, Özel Alanlar, Evraklar, Projeler, Aktivite',
-            ],
-            'phase' => '1',
-        ],
         'projects' => [
             'title' => 'Projeler',
             'description' => 'Hizmet türüne göre farklı Kanban/pipeline ile yürütülen proje yönetimi. Her hizmet kaleminin kendi aşama şablonu vardır (müşteri kararı ile tanımlanır).',

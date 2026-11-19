@@ -13,6 +13,9 @@ use RuntimeException;
  * ayrıca veritabanı trigger'ı ile zorlanır (migration'a bakın).
  * Hassas alanlar AuditLogger tarafından yazılmadan maskeLenir.
  */
+/**
+ * @property Model|null $auditable
+ */
 class AuditEvent extends Model
 {
     public const UPDATED_AT = null;
@@ -31,11 +34,17 @@ class AuditEvent extends Model
         ];
     }
 
+    /**
+     * @return BelongsTo<User, $this>
+     */
     public function actor(): BelongsTo
     {
         return $this->belongsTo(User::class, 'actor_id');
     }
 
+    /**
+     * @return MorphTo<Model, $this>
+     */
     public function auditable(): MorphTo
     {
         return $this->morphTo();

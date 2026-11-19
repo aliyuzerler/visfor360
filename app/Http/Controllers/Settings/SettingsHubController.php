@@ -24,6 +24,7 @@ class SettingsHubController extends Controller
             ['key' => 'roles', 'title' => 'Roller ve İzinler', 'description' => 'Rol tanımları ve izin matrisi', 'route' => 'settings.roles.index', 'can' => $user->can('roles.view')],
             ['key' => 'departments', 'title' => 'Departmanlar', 'description' => 'Departman yapısı ve üyelikler', 'route' => 'settings.departments.index', 'can' => $user->can('departments.view')],
             ['key' => 'audit', 'title' => 'Audit Log', 'description' => 'Kritik değişikliklerin izlenebilir kaydı (salt-okunur)', 'route' => 'settings.audit-logs.index', 'can' => $user->can('audit.view')],
+            ['key' => 'custom-fields', 'title' => 'Özel Alanlar', 'description' => 'Müşteri siciline dinamik alan tanımlama (EAV)', 'route' => 'settings.custom-fields.index', 'can' => $user->can('customers.manage_settings')],
         ])->filter(fn (array $section) => $section['can']);
 
         return Inertia::render('settings/index', [

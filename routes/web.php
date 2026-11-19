@@ -1,7 +1,11 @@
 <?php
 
+use App\Domain\Customers\Models\CustomFieldDefinition;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\PasswordResetController;
+use App\Http\Controllers\Customers\ContactController;
+use App\Http\Controllers\Customers\CustomerController;
+use App\Http\Controllers\Customers\CustomFieldController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HealthController;
 use App\Http\Controllers\PlaceholderController;
@@ -48,6 +52,39 @@ Route::middleware(['auth'])->prefix('app')->group(function (): void {
 
     // Ayarlar hub'ı ve gerçek yönetim ekranları
     Route::get('/settings', [SettingsHubController::class, 'index'])->name('settings.index');
+
+    // CRM (Prompt 04)
+    Route::get('/customers', [CustomerController::class, 'index'])
+        ->middleware('can:customers.view')->name('customers.index');
+    Route::get('/customers/create', [CustomerController::class, 'create'])
+        ->middleware('can:customers.create')->name('customers.create');
+    Route::post('/customers', [CustomerController::class, 'store'])
+        ->middleware('can:customers.create')->name('customers.store');
+    Route::get('/customers/{customer}', [CustomerController::class, 'show'])
+        ->middleware('can:view,customer')->name('customers.show');
+    Route::get('/customers/{customer}/edit', [CustomerController::class, 'edit'])
+        ->middleware('can:update,customer')->name('customers.edit');
+    Route::put('/customers/{customer}', [CustomerController::class, 'update'])
+        ->middleware('can:update,customer')->name('customers.update');
+    Route::patch('/customers/{customer}/archive', [CustomerController::class, 'archive'])
+        ->middleware('can:archive,customer')->name('customers.archive');
+
+    Route::post('/customers/{customer}/contacts', [ContactController::class, 'store'])
+        ->middleware('can:update,customer')->name('customers.contacts.store');
+    Route::put('/contacts/{contact}', [ContactController::class, 'update'])
+        ->middleware('can:update,contact.customer')->name('customers.contacts.update');
+    Route::patch('/contacts/{contact}/archive', [ContactController::class, 'archive'])
+        ->middleware('can:update,contact.customer')->name('customers.contacts.archive');
+
+    Route::get('/settings/custom-fields', [CustomFieldController::class, 'index'])
+        ->middleware('can:customers.manage_settings')->name('settings.custom-fields.index');
+    Route::post('/settings/custom-fields', [CustomFieldController::class, 'store'])
+        ->middleware('can:create,'.CustomFieldDefinition::class)
+        ->name('settings.custom-fields.store');
+    Route::put('/settings/custom-fields/{definition}', [CustomFieldController::class, 'update'])
+        ->middleware('can:update,definition')->name('settings.custom-fields.update');
+    Route::patch('/settings/custom-fields/{definition}/deactivate', [CustomFieldController::class, 'deactivate'])
+        ->middleware('can:archive,definition')->name('settings.custom-fields.deactivate');
 
     Route::get('/settings/users', [UserController::class, 'index'])
         ->middleware('can:users.view')->name('settings.users.index');

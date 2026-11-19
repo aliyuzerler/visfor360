@@ -28,7 +28,7 @@ export const NAV_GROUPS: NavGroup[] = [
         label: 'Operasyon',
         items: [
             { key: 'dashboard', label: 'Genel Bakış', route: 'dashboard', icon: 'LayoutDashboard', phase: '1' },
-            { key: 'customers', label: 'Müşteriler', route: 'customers.index', icon: 'Building2', phase: '1', placeholder: true },
+            { key: 'customers', label: 'Müşteriler', route: 'customers.index', icon: 'Building2', phase: '1' },
             { key: 'projects', label: 'Projeler', route: 'projects.index', icon: 'FolderKanban', phase: '1', placeholder: true },
             { key: 'tasks', label: 'Görevler', route: 'tasks.index', icon: 'ListChecks', phase: '1', placeholder: true },
         ],
