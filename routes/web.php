@@ -10,6 +10,9 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Documents\DocumentController;
 use App\Http\Controllers\HealthController;
 use App\Http\Controllers\PlaceholderController;
+use App\Http\Controllers\Projects\PipelineController;
+use App\Http\Controllers\Projects\ProjectController;
+use App\Http\Controllers\Projects\ServiceTypeController;
 use App\Http\Controllers\Settings\AuditLogController;
 use App\Http\Controllers\Settings\DepartmentController;
 use App\Http\Controllers\Settings\RoleController;
@@ -76,6 +79,37 @@ Route::middleware(['auth'])->prefix('app')->group(function (): void {
         ->middleware('can:update,contact.customer')->name('customers.contacts.update');
     Route::patch('/contacts/{contact}/archive', [ContactController::class, 'archive'])
         ->middleware('can:update,contact.customer')->name('customers.contacts.archive');
+
+    // Proje + pipeline (Prompt 06)
+    Route::get('/projects', [ProjectController::class, 'index'])
+        ->middleware('can:projects.view')->name('projects.index');
+    Route::get('/projects/create', [ProjectController::class, 'create'])
+        ->middleware('can:projects.create')->name('projects.create');
+    Route::post('/projects', [ProjectController::class, 'store'])
+        ->middleware('can:projects.create')->name('projects.store');
+    Route::get('/projects/{project}', [ProjectController::class, 'show'])
+        ->middleware('can:view,project')->name('projects.show');
+    Route::get('/projects/{project}/edit', [ProjectController::class, 'edit'])
+        ->middleware('can:update,project')->name('projects.edit');
+    Route::put('/projects/{project}', [ProjectController::class, 'update'])
+        ->middleware('can:update,project')->name('projects.update');
+    Route::patch('/projects/{project}/archive', [ProjectController::class, 'archive'])
+        ->middleware('can:archive,project')->name('projects.archive');
+    Route::patch('/projects/{project}/stage', [ProjectController::class, 'transitionStage'])
+        ->middleware('can:transitionStage,project')->name('projects.stage');
+
+    Route::get('/settings/services', [ServiceTypeController::class, 'index'])
+        ->middleware('can:services.view')->name('settings.services.index');
+    Route::post('/settings/services', [ServiceTypeController::class, 'store'])
+        ->middleware('can:services.manage')->name('settings.services.store');
+    Route::put('/settings/services/{serviceType}', [ServiceTypeController::class, 'update'])
+        ->middleware('can:services.manage')->name('settings.services.update');
+    Route::post('/settings/pipelines', [PipelineController::class, 'store'])
+        ->middleware('can:services.manage')->name('settings.pipelines.store');
+    Route::post('/settings/pipelines/{pipeline}/stages', [PipelineController::class, 'storeStage'])
+        ->middleware('can:services.manage')->name('settings.pipelines.stages.store');
+    Route::put('/settings/pipelines/stages/{stage}', [PipelineController::class, 'updateStage'])
+        ->middleware('can:services.manage')->name('settings.pipelines.stages.update');
 
     // Evrak deposu (Prompt 05)
     Route::post('/customers/{customer}/documents', [DocumentController::class, 'store'])

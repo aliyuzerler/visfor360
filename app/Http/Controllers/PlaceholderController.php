@@ -16,16 +16,6 @@ class PlaceholderController extends Controller
      * @var array<string, array{title: string, description: string, subScreens: string[], phase: string}>
      */
     private const PAGES = [
-        'projects' => [
-            'title' => 'Projeler',
-            'description' => 'Hizmet türüne göre farklı Kanban/pipeline ile yürütülen proje yönetimi. Her hizmet kaleminin kendi aşama şablonu vardır (müşteri kararı ile tanımlanır).',
-            'subScreens' => [
-                'Proje listesi ve arama',
-                'Hizmet kataloğu ve pipeline şablonları',
-                'Hizmete özel Kanban panosu ve aşama geçmişi',
-            ],
-            'phase' => '1',
-        ],
         'tasks' => [
             'title' => 'Görevler',
             'description' => 'Ekip iş yönetimi: görevler atanır, ilerletilir, geçmişi saklanır; stratejik hedeflerle ilişkilendirilir.',
