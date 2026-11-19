@@ -18,6 +18,7 @@ use App\Http\Controllers\Settings\DepartmentController;
 use App\Http\Controllers\Settings\RoleController;
 use App\Http\Controllers\Settings\SettingsHubController;
 use App\Http\Controllers\Settings\UserController;
+use App\Http\Controllers\Tasks\TaskController;
 use Illuminate\Support\Facades\Route;
 
 // Sağlık kontrolü: konfigürasyon/stack bilgisi sızdırmayan minimal yanıt.
@@ -97,6 +98,26 @@ Route::middleware(['auth'])->prefix('app')->group(function (): void {
         ->middleware('can:archive,project')->name('projects.archive');
     Route::patch('/projects/{project}/stage', [ProjectController::class, 'transitionStage'])
         ->middleware('can:transitionStage,project')->name('projects.stage');
+
+    // Görevler (Prompt 07)
+    Route::get('/tasks', [TaskController::class, 'index'])
+        ->name('tasks.index');
+    Route::get('/tasks/create', [TaskController::class, 'create'])
+        ->name('tasks.create');
+    Route::post('/tasks', [TaskController::class, 'store'])
+        ->name('tasks.store');
+    Route::get('/tasks/{task}', [TaskController::class, 'show'])
+        ->name('tasks.show');
+    Route::get('/tasks/{task}/edit', [TaskController::class, 'edit'])
+        ->name('tasks.edit');
+    Route::put('/tasks/{task}', [TaskController::class, 'update'])
+        ->name('tasks.update');
+    Route::patch('/tasks/{task}/status', [TaskController::class, 'changeStatus'])
+        ->name('tasks.status');
+    Route::patch('/tasks/{task}/assign', [TaskController::class, 'assign'])
+        ->name('tasks.assign');
+    Route::patch('/tasks/{task}/archive', [TaskController::class, 'archive'])
+        ->name('tasks.archive');
 
     Route::get('/settings/services', [ServiceTypeController::class, 'index'])
         ->middleware('can:services.view')->name('settings.services.index');

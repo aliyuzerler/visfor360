@@ -7,6 +7,7 @@ use App\Domain\Customers\Models\CustomFieldDefinition;
 use App\Domain\Documents\Models\Document;
 use App\Domain\Identity\PermissionRegistry;
 use App\Domain\Projects\Models\Project;
+use App\Domain\Tasks\Models\Task;
 use App\Models\AuditEvent;
 use App\Models\Department;
 use App\Models\Role;
@@ -19,6 +20,7 @@ use App\Policies\Identity\DepartmentPolicy;
 use App\Policies\Identity\RolePolicy;
 use App\Policies\Identity\UserPolicy;
 use App\Policies\Projects\ProjectPolicy;
+use App\Policies\Tasks\TaskPolicy;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -56,6 +58,7 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(CustomFieldDefinition::class, CustomFieldPolicy::class);
         Gate::policy(Document::class, DocumentPolicy::class);
         Gate::policy(Project::class, ProjectPolicy::class);
+        Gate::policy(Task::class, TaskPolicy::class);
 
         // Her registry izni için server-side Gate tanımı.
         // Yetki yalnızca UI'da gizlenmez; her route ek olarak can: middleware ve

@@ -16,12 +16,6 @@ class PlaceholderController extends Controller
      * @var array<string, array{title: string, description: string, subScreens: string[], phase: string}>
      */
     private const PAGES = [
-        'tasks' => [
-            'title' => 'Görevler',
-            'description' => 'Ekip iş yönetimi: görevler atanır, ilerletilir, geçmişi saklanır; stratejik hedeflerle ilişkilendirilir.',
-            'subScreens' => ['Benim görevlerim', 'Ekip görevleri', 'Görev detayı, atama ve geçmiş'],
-            'phase' => '1',
-        ],
         'goals' => [
             'title' => 'Stratejik Hedefler',
             'description' => '5 yıllık vizyon ve 12 ana hedef bağlantılı OKR takibi. İlerleme yalnızca onaylı ölçüm formülü ile hesaplanır; formül yoksa yüzde gösterilmez.',
