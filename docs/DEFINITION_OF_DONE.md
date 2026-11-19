@@ -1,0 +1,14 @@
+# Definition of Done
+- [ ] Gereksinim/onaylı karar ile izlenebilir.
+- [ ] Açık müşteri kararı varsayımla kesinleştirilmemiş.
+- [ ] UI loading/empty/error/success/forbidden durumlarını içeriyor.
+- [ ] Form ve API validation mevcut.
+- [ ] Server-side authorization ve kayıt kapsamı testli.
+- [ ] Kritik değişiklik audit log üretir.
+- [ ] Migration güvenli ve temiz DB'de uygulanabilir.
+- [ ] Unit + feature + kritik E2E testleri geçer.
+- [ ] Lint/format/type-check/build geçer.
+- [ ] Security, performance, UI/UX ve accessibility review yapılmış.
+- [ ] Doküman/ADR ve API envanteri güncel.
+- [ ] Gerçek secret veya müşteri verisi commit edilmemiş.
+- [ ] Test sonuçları, değişen dosyalar ve kalan riskler raporlanmış.

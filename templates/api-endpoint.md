@@ -1,0 +1,14 @@
+# API Endpoint Tasarım Şablonu
+- Method + path + version:
+- Amaç:
+- Authentication:
+- Scope/permission:
+- Customer/record scope:
+- Request/response schema:
+- Validation errors:
+- Idempotency:
+- Rate limit:
+- Audit event:
+- Webhook event:
+- Pagination/filter/sort:
+- Testler: valid, invalid, unauthenticated, forbidden, not found, duplicate, boundary.

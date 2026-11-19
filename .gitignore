@@ -1,0 +1,49 @@
+# Visfor360 .gitignore
+
+# --- Gizli / müşteri verisi (public repoya girmez) ---
+/references/
+/secrets/
+*.env
+!.env.example
+.env.*
+!.env.ci
+
+# --- Bağımlılıklar ---
+/vendor/
+/node_modules/
+/bower_components/
+
+# --- Laravel runtime ---
+/storage/*.key
+/storage/app/private/*
+/storage/app/public/*
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+/storage/logs/*
+/bootstrap/cache/*
+!**/.gitignore
+
+# --- Derleme çıktıları ---
+/public/build
+/public/hot
+/public/storage
+
+# --- Test / ölçüm ---
+/.phpunit.cache
+/.phpunit.result.cache
+/coverage*
+/playwright-report/
+/test-results/
+/.playwright/
+
+# --- IDE / OS ---
+/.idea
+/.vscode
+*.swp
+.DS_Store
+Thumbs.db
+
+# --- Yerel yardımcılar ---
+/tools/
+/*.log
