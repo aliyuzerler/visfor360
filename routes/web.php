@@ -7,6 +7,7 @@ use App\Http\Controllers\Customers\ContactController;
 use App\Http\Controllers\Customers\CustomerController;
 use App\Http\Controllers\Customers\CustomFieldController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Documents\DocumentController;
 use App\Http\Controllers\HealthController;
 use App\Http\Controllers\PlaceholderController;
 use App\Http\Controllers\Settings\AuditLogController;
@@ -75,6 +76,14 @@ Route::middleware(['auth'])->prefix('app')->group(function (): void {
         ->middleware('can:update,contact.customer')->name('customers.contacts.update');
     Route::patch('/contacts/{contact}/archive', [ContactController::class, 'archive'])
         ->middleware('can:update,contact.customer')->name('customers.contacts.archive');
+
+    // Evrak deposu (Prompt 05)
+    Route::post('/customers/{customer}/documents', [DocumentController::class, 'store'])
+        ->middleware('can:documents.create')->name('customers.documents.store');
+    Route::get('/documents/{document}/download', [DocumentController::class, 'download'])
+        ->middleware('can:download,document')->name('documents.download');
+    Route::patch('/documents/{document}/archive', [DocumentController::class, 'archive'])
+        ->middleware('can:archive,document')->name('documents.archive');
 
     Route::get('/settings/custom-fields', [CustomFieldController::class, 'index'])
         ->middleware('can:customers.manage_settings')->name('settings.custom-fields.index');

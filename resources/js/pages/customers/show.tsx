@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs-t
 import { TBody, TD, TH, THead, TR, Table } from '@/components/ui/table';
 import { route } from '@/lib/route';
 import { Head, Link, router, useForm } from '@inertiajs/react';
+import { useRef } from 'react';
 import { toast } from '@/components/ui/toast';
 
 interface ContactRow {
@@ -16,6 +17,15 @@ interface ContactRow {
     email: string | null;
     phone: string | null;
     is_primary: boolean;
+}
+
+interface DocRow {
+    type_id: number;
+    type_label: string;
+    required: boolean;
+    status: 'missing' | 'expired' | 'expiring_soon' | 'valid' | 'optional_missing';
+    document: { id: number; original_name: string; size_bytes: number; valid_until: string | null } | null;
+    warn_days: number;
 }
 
 interface ActivityRow {
@@ -32,7 +42,9 @@ export default function CustomerShow({
     activities,
     fieldDefinitions,
     can,
+    documentRows,
 }: {
+    documentRows: DocRow[];
     customer: {
         id: number;
         name: string;
@@ -53,6 +65,28 @@ export default function CustomerShow({
     can: { update: boolean; archive: boolean };
 }) {
     const values = Object.fromEntries(customer.custom_field_values.map((v) => [v.definition_id, v.typed_value]));
+    const uploadForm = useForm({ document_type_id: '', file: null as File | null, valid_until: '' });
+    const fileInput = useRef<HTMLInputElement>(null);
+
+    const upload = (e: React.FormEvent) => {
+        e.preventDefault();
+        uploadForm.post(route('customers.documents.store', customer.id), {
+            forceFormData: true,
+            preserveScroll: true,
+            onSuccess: () => { uploadForm.reset(); toast.success('Evrak yüklendi.'); },
+            onError: () => toast.error('Yükleme başarısız: dosya türü/boyut kontrol edin.'),
+        });
+    };
+
+    const statusBadge = (status: DocRow['status'], warnDays: number) => {
+        switch (status) {
+            case 'missing': return <Badge variant="danger">Eksik (zorunlu)</Badge>;
+            case 'expired': return <Badge variant="danger">Süresi geçmiş</Badge>;
+            case 'expiring_soon': return <Badge variant={`warning`}>Yaklaşıyor</Badge>;
+            case 'valid': return <Badge variant="success">Geçerli</Badge>;
+            default: return <Badge>Istekli</Badge>;
+        }
+    };
 
     const archive = () => {
         router.patch(route('customers.archive', customer.id), {}, {
@@ -168,10 +202,92 @@ export default function CustomerShow({
                     </TabsContent>
 
                     <TabsContent value="evraklar">
-                        <EmptyState
-                            title="Evrak modulu Faz 1'de eklenecek (Prompt 05)"
-                            description="Zorunlu evraklar, son gecerlilik tarihleri ve eksik/suresi gecen uyarilari burada listelenecek."
-                        />
+                        {can.update && (
+                            <form className="mb-4 flex flex-wrap items-end gap-2 rounded-xl border border-border bg-surface p-4" onSubmit={upload}>
+                                <div>
+                                    <label htmlFor="doc-type" className="mb-1 block text-xs font-medium text-muted-foreground">Evrak tipi</label>
+                                    <select
+                                        id="doc-type"
+                                        className="h-9 rounded-md border border-border bg-surface px-3 text-sm"
+                                        value={uploadForm.data.document_type_id}
+                                        onChange={(e) => uploadForm.setData('document_type_id', e.target.value)}
+                                        required
+                                    >
+                                        <option value="">Seçin…</option>
+                                        {documentRows.map((row) => (
+                                            <option key={row.type_id} value={row.type_id}>{row.type_label}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <div>
+                                    <label htmlFor="doc-valid" className="mb-1 block text-xs font-medium text-muted-foreground">Geçerlilik (opsiyonel)</label>
+                                    <input
+                                        id="doc-valid"
+                                        type="date"
+                                        className="h-9 rounded-md border border-border bg-surface px-3 text-sm"
+                                        value={uploadForm.data.valid_until}
+                                        onChange={(e) => uploadForm.setData('valid_until', e.target.value)}
+                                    />
+                                </div>
+                                <div>
+                                    <label htmlFor="doc-file" className="mb-1 block text-xs font-medium text-muted-foreground">Dosya (PDF/görsel/Office ≤10MB)</label>
+                                    <input
+                                        id="doc-file"
+                                        ref={fileInput}
+                                        type="file"
+                                        className="text-sm"
+                                        onChange={(e) => uploadForm.setData('file', e.target.files?.[0] ?? null)}
+                                        required
+                                    />
+                                </div>
+                                <Button type="submit" size="sm" loading={uploadForm.processing}>
+                                    Yükle
+                                </Button>
+                                {uploadForm.errors.file && <p className="text-xs text-danger" role="alert">{uploadForm.errors.file}</p>}
+                            </form>
+                        )}
+                        <Table>
+                            <THead>
+                                <TR>
+                                    <TH scope="col">Evrak tipi</TH>
+                                    <TH scope="col">Durum</TH>
+                                    <TH scope="col">Dosya</TH>
+                                    <TH scope="col">Geçerlilik</TH>
+                                    <TH scope="col">İşlem</TH>
+                                </TR>
+                            </THead>
+                            <TBody>
+                                {documentRows.map((row) => {
+                                    const activeDocument = row.document;
+                                    return (
+                                    <TR key={row.type_id}>
+                                        <TD className="font-medium">
+                                            {row.type_label}
+                                            {row.required && <Badge className="ml-2">zorunlu</Badge>}
+                                        </TD>
+                                        <TD>{statusBadge(row.status, row.warn_days)}</TD>
+                                        <TD className="text-sm">
+                                            {row.document ? (
+                                                <a href={route('documents.download', row.document.id)} className="text-primary hover:underline">
+                                                    {row.document.original_name}
+                                                </a>
+                                            ) : '—'}
+                                        </TD>
+                                        <TD className="text-sm">{activeDocument?.valid_until ?? '—'}</TD>
+                                        <TD>
+                                            {activeDocument ? (
+                                                can.update && (
+                                                    <Button size="sm" variant="secondary" onClick={() => router.patch(route('documents.archive', activeDocument.id))}>
+                                                        Arşivle
+                                                    </Button>
+                                                )
+                                            ) : null}
+                                        </TD>
+                                    </TR>
+                                    );
+                                })}
+                            </TBody>
+                        </Table>
                     </TabsContent>
 
                     <TabsContent value="projeler">
