@@ -78,12 +78,6 @@ class PlaceholderController extends Controller
             'subScreens' => ['Müşteri ve proje raporları', 'Departman/görev raporları', 'Hedef ve finans raporları'],
             'phase' => '1',
         ],
-        'settings' => [
-            'title' => 'Ayarlar',
-            'description' => 'Yönetim ekranları: kullanıcı/rol, departman, hizmet türü, özel alan, pipeline, audit log ve entegrasyon ayarları.',
-            'subScreens' => ['Kullanıcılar ve roller', 'Departmanlar ve hizmet kataloğu', 'Özel alanlar, pipeline şablonları ve audit log'],
-            'phase' => '1',
-        ],
     ];
 
     public function show(string $page): Response

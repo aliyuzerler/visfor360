@@ -39,26 +39,50 @@ const ICONS: Record<string, LucideIcon> = {
     Settings,
 };
 
+/** Ayarlar ekranı için izin eşlemesi (UI görünürlüğü; gerçek kontrol server-side). */
+const ROUTE_PERMISSION: Record<string, string> = {
+    'settings.users.index': 'users.view',
+    'settings.roles.index': 'roles.view',
+    'settings.departments.index': 'departments.view',
+    'settings.audit-logs.index': 'audit.view',
+};
+
 function NavItems({ currentRoute }: { currentRoute: string }) {
+    const { auth } = usePage<PageProps>().props;
+    const permissions = auth.user?.permissions ?? [];
+    const can = (routeName: string): boolean => {
+        const needed = ROUTE_PERMISSION[routeName];
+        if (routeName === 'settings.index') {
+            // Hub: en az bir ayar ekranına erişim varsa görünür
+            return Object.values(ROUTE_PERMISSION).some((perm) => permissions.includes(perm));
+        }
+        if (!needed) return true;
+        return permissions.includes(needed) || permissions.includes('*');
+    };
+
     return (
         <nav className="space-y-6" aria-label="Ana menü">
-            {NAV_GROUPS.map((group) => (
-                <div key={group.key}>
-                    <p className="mb-2 px-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                        {group.label}
-                    </p>
-                    <ul className="space-y-0.5">
-                        {group.items.map((item) => (
-                            <li key={item.key}>
-                                <NavLink
-                                    item={item}
-                                    active={route(item.route, undefined, false) === currentRoute}
-                                />
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            ))}
+            {NAV_GROUPS.map((group) => {
+                const visible = group.items.filter((item) => can(item.route));
+                if (visible.length === 0) return null;
+                return (
+                    <div key={group.key}>
+                        <p className="mb-2 px-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                            {group.label}
+                        </p>
+                        <ul className="space-y-0.5">
+                            {visible.map((item) => (
+                                <li key={item.key}>
+                                    <NavLink
+                                        item={item}
+                                        active={route(item.route, undefined, false) === currentRoute}
+                                    />
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                );
+            })}
         </nav>
     );
 }

@@ -55,7 +55,7 @@ export const NAV_GROUPS: NavGroup[] = [
         label: 'Yönetim',
         items: [
             { key: 'reports', label: 'Raporlar', route: 'reports.index', icon: 'BarChart3', phase: '1', placeholder: true },
-            { key: 'settings', label: 'Ayarlar', route: 'settings.index', icon: 'Settings', phase: '1', placeholder: true },
+            { key: 'settings', label: 'Ayarlar', route: 'settings.index', icon: 'Settings', phase: '1' },
         ],
     },
 ];

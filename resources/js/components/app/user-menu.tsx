@@ -1,7 +1,9 @@
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, LogOut } from 'lucide-react';
+import { useForm } from '@inertiajs/react';
 import * as React from 'react';
 import { cn } from '@/lib/utils';
+import { route } from '@/lib/route';
 
 export interface ShellUser {
     id: number;
@@ -64,13 +66,32 @@ export function UserMenu({ user }: { user: ShellUser | null }) {
                     align="end"
                     sideOffset={6}
                 >
-                    <div className="px-3 py-2">
+                    <div className="border-b border-border px-3 py-2">
                         <p className="text-sm font-medium text-foreground">{user.name}</p>
                         <p className="text-xs text-muted-foreground">{user.email}</p>
                     </div>
+                    <LogoutItem />
                 </DropdownMenuPrimitive.Content>
             </DropdownMenuPrimitive.Portal>
         </DropdownMenuPrimitive.Root>
+    );
+}
+
+function LogoutItem() {
+    const form = useForm({});
+
+    return (
+        <DropdownMenuPrimitive.Item asChild>
+            <button
+                type="button"
+                onClick={() => form.post(route('logout'))}
+                className="mt-1 flex w-full cursor-pointer items-center gap-2 rounded-md px-3 py-2 text-sm text-danger outline-none data-[highlighted]:bg-danger-bg"
+                disabled={form.processing}
+            >
+                <LogOut className="h-4 w-4" aria-hidden />
+                Çıkış yap
+            </button>
+        </DropdownMenuPrimitive.Item>
     );
 }
 

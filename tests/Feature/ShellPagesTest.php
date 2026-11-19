@@ -3,6 +3,9 @@
 namespace Tests\Feature;
 
 use App\Http\Controllers\PlaceholderController;
+use App\Models\Role;
+use App\Models\User;
+use Database\Seeders\RolePermissionSeeder;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;

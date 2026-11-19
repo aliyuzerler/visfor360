@@ -2,6 +2,8 @@ export interface ShellUser {
     id: number;
     name: string;
     email: string;
+    roles: string[];
+    permissions: string[];
 }
 
 /** HandleInertiaRequests ile paylaşılan kök verileri. */
