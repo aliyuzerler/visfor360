@@ -8,6 +8,7 @@ use App\Http\Controllers\Customers\CustomerController;
 use App\Http\Controllers\Customers\CustomFieldController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Documents\DocumentController;
+use App\Http\Controllers\Finance\FinanceController;
 use App\Http\Controllers\Goals\GoalController;
 use App\Http\Controllers\HealthController;
 use App\Http\Controllers\PlaceholderController;
@@ -119,6 +120,28 @@ Route::middleware(['auth'])->prefix('app')->group(function (): void {
         ->name('tasks.assign');
     Route::patch('/tasks/{task}/archive', [TaskController::class, 'archive'])
         ->name('tasks.archive');
+
+    // Finans (Prompt 09) — resmi muhasebe değildir (SRS notu)
+    Route::get('/finance', [FinanceController::class, 'index'])
+        ->name('finance.index');
+    Route::get('/finance/create', [FinanceController::class, 'create'])
+        ->middleware('can:finance.create')->name('finance.create');
+    Route::post('/finance', [FinanceController::class, 'store'])
+        ->middleware('can:finance.create')->name('finance.store');
+    Route::get('/finance/reports/pnl', [FinanceController::class, 'pnlReport'])
+        ->name('finance.pnl');
+    Route::get('/finance/reports/cash', [FinanceController::class, 'cashReport'])
+        ->name('finance.cash');
+    Route::patch('/finance/reports/cash/snapshot', [FinanceController::class, 'takeCashSnapshot'])
+        ->name('finance.cash.snapshot');
+    Route::get('/finance/{entry}/edit', [FinanceController::class, 'edit'])
+        ->middleware('can:update,entry')->name('finance.edit');
+    Route::put('/finance/{entry}', [FinanceController::class, 'update'])
+        ->middleware('can:update,entry')->name('finance.update');
+    Route::patch('/finance/{entry}/approve', [FinanceController::class, 'approve'])
+        ->middleware('can:approve,entry')->name('finance.approve');
+    Route::patch('/finance/{entry}/cancel', [FinanceController::class, 'cancel'])
+        ->middleware('can:update,entry')->name('finance.cancel');
 
     // Vizyon + stratejik hedefler (Prompt 08)
     Route::get('/goals', [GoalController::class, 'index'])

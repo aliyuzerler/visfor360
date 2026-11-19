@@ -16,12 +16,6 @@ class PlaceholderController extends Controller
      * @var array<string, array{title: string, description: string, subScreens: string[], phase: string}>
      */
     private const PAGES = [
-        'finance' => [
-            'title' => 'Finans',
-            'description' => 'Yönetimsel finans takibi: gelir-gider, tahsilat/ödeme, P&L ve nakit akışı. Resmi muhasebe aracı değildir; tahmini ve gerçekleşen açıkça ayrılır.',
-            'subScreens' => ['Gelir/gider kayıtları', 'P&L görünümü', 'Nakit akışı ve runway (onaylı formülle)'],
-            'phase' => '1',
-        ],
         'checkups' => [
             'title' => 'Check-Up',
             'description' => 'Şirket Check-Up şablonları, soru bankası, oturumlar ve deklaratif kural motoru. Soru/kural seti müşteri girdisiyle tanımlanır; eval çalıştırılmaz.',
