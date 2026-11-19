@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Model;
  * pnl_formula_approved=false iken P&L toplamları üretilmez;
  * cash_formula_approved=false iken runway hesaplanmaz.
  */
+/**
+ * @property array<string, mixed>|null $value
+ */
 class FinanceSetting extends Model
 {
     protected $fillable = ['key', 'value'];

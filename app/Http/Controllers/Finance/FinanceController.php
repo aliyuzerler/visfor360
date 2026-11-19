@@ -194,7 +194,7 @@ class FinanceController extends Controller
         $snapshots = CashBalanceSnapshot::query()->orderByDesc('calculated_at')->limit(10)->get();
 
         return Inertia::render('finance/cash', [
-            'snapshots' => $snapshots->map(fn ($snapshot) => [
+            'snapshots' => $snapshots->map(fn (CashBalanceSnapshot $snapshot) => [
                 'id' => $snapshot->id,
                 'as_of_date' => $snapshot->as_of_date?->format('Y-m-d'),
                 'cash_balance' => $snapshot->cash_balance,
@@ -204,7 +204,7 @@ class FinanceController extends Controller
                 'assumptions' => $snapshot->assumptions,
                 'status' => $snapshot->status,
                 'formula_version' => $snapshot->formula_version,
-                'calculated_at' => $snapshot->calculated_at?->format('d.m.Y H:i'),
+                'calculated_at' => $snapshot->calculated_at->format('d.m.Y H:i'),
             ]),
             'can' => [
                 'snapshot' => $request->user()->can('finance.update'),

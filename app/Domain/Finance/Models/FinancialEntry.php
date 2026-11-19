@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property FinancialCategory|null $category
  * @property Carbon|null $approved_at
  * @property Carbon|null $archived_at
+ * @property Carbon|null $entry_date
  */
 class FinancialEntry extends Model
 {

@@ -73,8 +73,6 @@ final class FinanceCalculationService
 
     /**
      * Nakit akışı + runway (ayrı rapor). Varsayımlar açıkça saklanır.
-     *
-     * @return array<string, mixed>
      */
     public function cashSnapshot(?User $actor): CashBalanceSnapshot
     {

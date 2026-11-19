@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
  * needs_configuration durumunda tüm değerler null'dır.
  *
  * @property Carbon $calculated_at
+ * @property Carbon|null $as_of_date
  */
 class CashBalanceSnapshot extends Model
 {
