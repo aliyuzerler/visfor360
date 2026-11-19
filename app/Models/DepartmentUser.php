@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class DepartmentUser extends Model
 {
+    protected $table = 'department_user';
+
     public $timestamps = false;
 
     protected $fillable = ['user_id', 'department_id', 'is_manager', 'joined_at'];

@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\Auth;
 
-use App\Models\AuditEvent;
 use App\Models\User;
+use Database\Seeders\RolePermissionSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\RateLimiter;
 use PHPUnit\Framework\Attributes\Test;
@@ -16,7 +16,7 @@ class LoginTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->seed(\Database\Seeders\RolePermissionSeeder::class);
+        $this->seed(RolePermissionSeeder::class);
         RateLimiter::clear('login-throttle');
     }
 
@@ -91,7 +91,7 @@ class LoginTest extends TestCase
         }
 
         // 6. deneme LoginRequest limiter'ında kalır (key: e-posta|ip)
-        $limiter = \Illuminate\Support\Facades\RateLimiter::tooManyAttempts(strtolower($user->email).'|127.0.0.1', 5);
+        $limiter = RateLimiter::tooManyAttempts(strtolower($user->email).'|127.0.0.1', 5);
 
         $this->assertTrue($limiter);
     }

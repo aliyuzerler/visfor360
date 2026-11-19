@@ -116,11 +116,11 @@ class RbacTest extends TestCase
         $superAdmin->roles()->attach(Role::query()->where('key', 'sistem-yoneticisi')->first());
 
         $this->loginAs($plainManager);
-        $this->            ->put('/app/settings/users/'.$superAdmin->id, [
-                'name' => 'Ele Geçirilmiş Ad',
-                'email' => $superAdmin->email,
-                'is_active' => true,
-            ])
+        $this->put('/app/settings/users/'.$superAdmin->id, [
+            'name' => 'Ele Geçirilmiş Ad',
+            'email' => $superAdmin->email,
+            'is_active' => true,
+        ])
             ->assertForbidden();
 
         $this->assertSame($superAdmin->getOriginal('name') ?? $superAdmin->name, $superAdmin->fresh()->name);

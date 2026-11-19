@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Settings;
 
+use App\Domain\Audit\AuditLogger;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Settings\StoreDepartmentRequest;
 use App\Http\Requests\Settings\UpdateDepartmentRequest;
-use App\Domain\Audit\AuditLogger;
 use App\Models\Department;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;

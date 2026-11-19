@@ -2,10 +2,11 @@
 
 namespace Tests\Feature\Commands;
 
-use App\Models\Role;
+use App\Console\Commands\InitAdminCommand;
 use App\Models\User;
 use Database\Seeders\RolePermissionSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Hash;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
@@ -40,7 +41,7 @@ class InitAdminTest extends TestCase
         $this->assertTrue($user->hasRole('sistem-yoneticisi'));
         $this->assertTrue($user->is_active);
         $this->assertTrue(
-            \Illuminate\Support\Facades\Hash::check('Bootstrap12345', $user->password)
+            Hash::check('Bootstrap12345', $user->password)
         );
 
         putenv('INIT_ADMIN_PASSWORD=');
@@ -72,7 +73,7 @@ class InitAdminTest extends TestCase
     public function parola_arguman_olarak_kabul_eklmedi(): void
     {
         // Parola option listesinde yok — argümanla parola geçilemez.
-        $signature = (new \App\Console\Commands\InitAdminCommand())->getDefinition()->getOptions();
+        $signature = (new InitAdminCommand)->getDefinition()->getOptions();
 
         $this->assertArrayNotHasKey('password', $signature);
         $this->assertArrayHasKey('generate', $signature);

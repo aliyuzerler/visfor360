@@ -3,7 +3,6 @@
 namespace App\Domain\Audit;
 
 use Illuminate\Database\Eloquent\Model;
-use Throwable;
 
 /**
  * Modeller için otomatik audit hook'u (Prompt 03).

@@ -6,7 +6,6 @@ use App\Domain\Audit\AuditLogger;
 use App\Http\Controllers\Controller;
 use App\Models\Permission;
 use App\Models\Role;
-use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;

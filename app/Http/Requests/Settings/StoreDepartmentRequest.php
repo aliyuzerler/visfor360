@@ -4,7 +4,6 @@ namespace App\Http\Requests\Settings;
 
 use App\Models\Department;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class StoreDepartmentRequest extends FormRequest
 {

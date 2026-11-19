@@ -3,9 +3,12 @@
 namespace Tests\Feature\Auth;
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Notification;
+use Database\Seeders\RolePermissionSeeder;
 use Illuminate\Auth\Notifications\ResetPassword as ResetPasswordNotification;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Password;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
@@ -16,7 +19,7 @@ class PasswordResetTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->seed(\Database\Seeders\RolePermissionSeeder::class);
+        $this->seed(RolePermissionSeeder::class);
     }
 
     #[Test]
@@ -46,7 +49,7 @@ class PasswordResetTest extends TestCase
     {
         $user = User::factory()->create();
         $oldHash = $user->password;
-        $token = \Illuminate\Support\Facades\Password::createToken($user);
+        $token = Password::createToken($user);
 
         $response = $this->post('/reset-password', [
             'token' => $token,
@@ -58,14 +61,14 @@ class PasswordResetTest extends TestCase
         $response->assertRedirect('/login');
         $this->assertNotSame($oldHash, $user->fresh()->password);
         $this->assertNotNull($user->fresh()->password_changed_at);
-        $this->assertTrue(\Illuminate\Support\Facades\Hash::check('YeniParola12345', $user->fresh()->password));
+        $this->assertTrue(Hash::check('YeniParola12345', $user->fresh()->password));
     }
 
     #[Test]
     public function zayif_parola_reddedilir(): void
     {
         $user = User::factory()->create();
-        $token = \Illuminate\Support\Facades\Password::createToken($user);
+        $token = Password::createToken($user);
 
         $this->post('/reset-password', [
             'token' => $token,
@@ -82,12 +85,17 @@ class PasswordResetTest extends TestCase
     {
         $user = User::factory()->create();
 
-        // Gerçek login akışı ile oturum aç (session'da password hash damgası oluşur)
+        // Gerçek login akışı ile oturum aç; ilk GET AuthenticateSession'ın
+        // parola hash damgasını oturuma yazmasını sağlar.
         $this->post('/login', ['email' => $user->email, 'password' => 'password']);
         $this->assertAuthenticatedAs($user);
+        $this->get('/app/dashboard')->assertOk();
 
-        // Parola başka bir yerden değiştirilir
+        // Parola başka bir yerden değiştirilir. Test process'i içinde guard cache'i
+        // temizlenmezse eski kullanıcı örneği kullanılır; gerçek isteklerde her istek
+        // tazedir, bu yüzden testte forgetGuards ile aynı davranış simüle edilir.
         $user->forceFill(['password' => 'BaskaParola12345', 'password_changed_at' => now()])->saveQuietly();
+        $this->app->make('auth')->forgetGuards();
 
         $this->get('/app/dashboard')->assertRedirect('/login');
         $this->assertGuest();

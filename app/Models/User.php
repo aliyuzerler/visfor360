@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Domain\Audit\Auditable;
-use App\Domain\Identity\PermissionRegistry;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
@@ -19,7 +18,7 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable, SoftDeletes, Auditable;
+    use Auditable, HasFactory, Notifiable, SoftDeletes;
 
     /**
      * @var array<string, bool>|null istek boyunca izin önbelleği

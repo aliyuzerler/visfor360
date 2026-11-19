@@ -5,8 +5,6 @@ namespace App\Console\Commands;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules\Password;
 
 /**
  * İlk sistem yöneticisi bootstrap (Prompt 03).

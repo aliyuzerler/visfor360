@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-
 use App\Domain\Audit\AuditLogger;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class LoginController extends \App\Http\Controllers\Controller
+class LoginController extends Controller
 {
     public function show(): Response
     {
@@ -56,7 +56,7 @@ class LoginController extends \App\Http\Controllers\Controller
         return redirect()->intended(route('dashboard'));
     }
 
-    public function destroy(LoginRequest $request): RedirectResponse
+    public function destroy(Request $request): RedirectResponse
     {
         Auth::logout();
 

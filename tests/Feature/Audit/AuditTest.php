@@ -3,9 +3,9 @@
 namespace Tests\Feature\Audit;
 
 use App\Models\AuditEvent;
-use App\Models\Department;
 use App\Models\User;
 use Database\Seeders\RolePermissionSeeder;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use PHPUnit\Framework\Attributes\Test;
@@ -123,7 +123,7 @@ class AuditTest extends TestCase
         $id = AuditEvent::query()->latest('id')->value('id');
 
         // DB katmanı (PostgreSQL trigger) koruması — model bypass edilirse bile
-        $this->expectException(\Illuminate\Database\QueryException::class);
+        $this->expectException(QueryException::class);
         DB::table('audit_events')->where('id', $id)->update(['action' => 'tampered']);
     }
 

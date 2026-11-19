@@ -9,8 +9,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Str;
-use RuntimeException;
-use Throwable;
 
 /**
  * Merkezi audit servisi (Prompt 03).
@@ -37,7 +35,7 @@ final class AuditLogger
 
         return AuditEvent::query()->create([
             'actor_id' => $actor?->id,
-            'actor_name' => $actor?->name ?? 'system',
+            'actor_name' => $actor !== null ? $actor->name : 'system',
             'action' => $action,
             'auditable_type' => $auditable?->getMorphClass(),
             'auditable_id' => $auditable?->getKey(),

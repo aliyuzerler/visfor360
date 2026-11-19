@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * İzin: "module.action" formatında anahtar (örn. customers.view).
@@ -11,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Permission extends Model
 {
-    public function roles(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function roles(): BelongsToMany
     {
         return $this->belongsToMany(Role::class);
     }
