@@ -69,8 +69,8 @@ jobs:
 
       - name: Test DB hazırla
         run: |
-          PGPASSWORD=visfor_dev psql -h 127.0.0.1 -U visfor -c "DROP DATABASE IF EXISTS visfor360_test;"
-          PGPASSWORD=visfor_dev psql -h 127.0.0.1 -U visfor -c "CREATE DATABASE visfor360_test;"
+          PGPASSWORD=visfor_dev psql -h 127.0.0.1 -U visfor -d visfor360 -c "DROP DATABASE IF EXISTS visfor360_test;"
+          PGPASSWORD=visfor_dev psql -h 127.0.0.1 -U visfor -d visfor360 -c "CREATE DATABASE visfor360_test;"
 
       - name: PHPUnit
         run: php vendor/bin/phpunit
