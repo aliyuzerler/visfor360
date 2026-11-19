@@ -8,6 +8,7 @@ use App\Http\Controllers\Customers\CustomerController;
 use App\Http\Controllers\Customers\CustomFieldController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Documents\DocumentController;
+use App\Http\Controllers\Goals\GoalController;
 use App\Http\Controllers\HealthController;
 use App\Http\Controllers\PlaceholderController;
 use App\Http\Controllers\Projects\PipelineController;
@@ -118,6 +119,18 @@ Route::middleware(['auth'])->prefix('app')->group(function (): void {
         ->name('tasks.assign');
     Route::patch('/tasks/{task}/archive', [TaskController::class, 'archive'])
         ->name('tasks.archive');
+
+    // Vizyon + stratejik hedefler (Prompt 08)
+    Route::get('/goals', [GoalController::class, 'index'])
+        ->name('goals.index');
+    Route::get('/goals/{goal}', [GoalController::class, 'show'])
+        ->middleware('can:view,goal')->name('goals.show');
+    Route::patch('/goals/{goal}/progress', [GoalController::class, 'snapshot'])
+        ->middleware('can:view,goal')->name('goals.snapshot');
+    Route::post('/goals/{goal}/tasks', [GoalController::class, 'linkTask'])
+        ->middleware('can:linkTask,goal')->name('goals.tasks.link');
+    Route::patch('/goals/{goal}', [GoalController::class, 'update'])
+        ->middleware('can:update,goal')->name('goals.update');
 
     Route::get('/settings/services', [ServiceTypeController::class, 'index'])
         ->middleware('can:services.view')->name('settings.services.index');

@@ -37,7 +37,7 @@ export const NAV_GROUPS: NavGroup[] = [
         key: 'strategy',
         label: 'Strateji ve Finans',
         items: [
-            { key: 'goals', label: 'Stratejik Hedefler', route: 'goals.index', icon: 'Target', phase: '1', placeholder: true },
+            { key: 'goals', label: 'Stratejik Hedefler', route: 'goals.index', icon: 'Target', phase: '1' },
             { key: 'finance', label: 'Finans', route: 'finance.index', icon: 'Wallet', phase: '1', placeholder: true },
         ],
     },

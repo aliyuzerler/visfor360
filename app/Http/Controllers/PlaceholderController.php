@@ -16,12 +16,6 @@ class PlaceholderController extends Controller
      * @var array<string, array{title: string, description: string, subScreens: string[], phase: string}>
      */
     private const PAGES = [
-        'goals' => [
-            'title' => 'Stratejik Hedefler',
-            'description' => '5 yıllık vizyon ve 12 ana hedef bağlantılı OKR takibi. İlerleme yalnızca onaylı ölçüm formülü ile hesaplanır; formül yoksa yüzde gösterilmez.',
-            'subScreens' => ['Vizyon ekranı', '12 ana hedef listesi ve detayı', 'Görev-hedef bağlantıları ve ilerleme'],
-            'phase' => '1',
-        ],
         'finance' => [
             'title' => 'Finans',
             'description' => 'Yönetimsel finans takibi: gelir-gider, tahsilat/ödeme, P&L ve nakit akışı. Resmi muhasebe aracı değildir; tahmini ve gerçekleşen açıkça ayrılır.',

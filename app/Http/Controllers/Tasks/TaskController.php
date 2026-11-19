@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Tasks;
 
 use App\Domain\Audit\AuditLogger;
 use App\Domain\Customers\Models\Customer;
+use App\Domain\Goals\Models\GoalTaskLink;
 use App\Domain\Projects\Models\Project;
 use App\Domain\Tasks\Actions\TaskService;
 use App\Domain\Tasks\Models\Task;
@@ -11,6 +12,7 @@ use App\Domain\Tasks\Models\TaskAssignment;
 use App\Domain\Tasks\Models\TaskFieldSetting;
 use App\Domain\Tasks\Models\TaskHistory;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Goals\GoalController;
 use App\Models\Department;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
@@ -132,6 +134,17 @@ class TaskController extends Controller
 
         if (! empty($validated['assignee_id'])) {
             $service->assign($task, User::findOrFail($validated['assignee_id']), $request->user());
+        }
+
+        // Departman/hizmet mapping'e göre varsayılan hedef önerisi (Prompt 08):
+        // kullanıcı düzeltme yetkisi müşteri kararı (ADR-0009) — şimdilik
+        // oluşturma sonrası hedef detayından bağlantı yönetilir.
+        $suggestedGoal = GoalController::suggestedGoalFor($validated['service_type_id'] ?? null, $validated['department_id'] ?? null);
+        if ($suggestedGoal !== null) {
+            GoalTaskLink::firstOrCreate([
+                'goal_id' => $suggestedGoal->id,
+                'task_id' => $task->id,
+            ], ['linked_by' => $request->user()->id]);
         }
 
         app(AuditLogger::class)->logModelChange('created', $task);

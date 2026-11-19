@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Domain\Customers\Models\Customer;
 use App\Domain\Customers\Models\CustomFieldDefinition;
 use App\Domain\Documents\Models\Document;
+use App\Domain\Goals\Models\StrategicGoal;
 use App\Domain\Identity\PermissionRegistry;
 use App\Domain\Projects\Models\Project;
 use App\Domain\Tasks\Models\Task;
@@ -15,6 +16,7 @@ use App\Models\User;
 use App\Policies\Customers\CustomerPolicy;
 use App\Policies\Customers\CustomFieldPolicy;
 use App\Policies\Documents\DocumentPolicy;
+use App\Policies\Goals\StrategicGoalPolicy;
 use App\Policies\Identity\AuditEventPolicy;
 use App\Policies\Identity\DepartmentPolicy;
 use App\Policies\Identity\RolePolicy;
@@ -59,6 +61,7 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(Document::class, DocumentPolicy::class);
         Gate::policy(Project::class, ProjectPolicy::class);
         Gate::policy(Task::class, TaskPolicy::class);
+        Gate::policy(StrategicGoal::class, StrategicGoalPolicy::class);
 
         // Her registry izni için server-side Gate tanımı.
         // Yetki yalnızca UI'da gizlenmez; her route ek olarak can: middleware ve
