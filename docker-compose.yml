@@ -1,0 +1,29 @@
+# Visfor360 — yerel geliştirme ortamı (Docker Compose).
+# Yalnızca geliştirme amaçlıdır. Production yapılandırması için RELEASE_AND_OPERATIONS.md'ye bakın.
+#
+# Bu compose dosyası yalnızca PostgreSQL'i sağlar; Laravel uygulaması doğrudan
+# `php artisan serve` (veya PHP-FPM) ile çalışır. DB portu yalnızca localhost'a
+# bağlıdır (127.0.0.1); internete açılmaz.
+#
+#   docker compose up -d
+#   cp .env.example .env && php artisan key:generate && php artisan migrate
+#   php artisan serve
+services:
+    postgres:
+        image: postgres:17
+        environment:
+            POSTGRES_USER: visfor
+            POSTGRES_PASSWORD: visfor_dev
+            POSTGRES_DB: visfor360
+        ports:
+            - "127.0.0.1:5432:5432"
+        volumes:
+            - pgdata:/var/lib/postgresql/data
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U visfor"]
+            interval: 5s
+            timeout: 5s
+            retries: 10
+
+volumes:
+    pgdata:

@@ -1,0 +1,76 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  backend:
+    name: Backend (lint / static analysis / tests / build)
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: visfor
+          POSTGRES_PASSWORD: visfor_dev
+          POSTGRES_DB: visfor360
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U visfor"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      DB_CONNECTION: pgsql
+      DB_HOST: 127.0.0.1
+      DB_PORT: "5432"
+      DB_DATABASE: visfor360
+      DB_USERNAME: visfor
+      DB_PASSWORD: visfor_dev
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: PHP 8.3 kur
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, pdo_pgsql, pgsql, zip, gd, bcmath, intl
+          coverage: none
+
+      - name: Node 22 kur
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Composer bağımlılıkları
+        run: composer install --prefer-dist --no-interaction --no-progress
+
+      - name: NPM bağımlılıkları
+        run: npm ci
+
+      - name: Uygulama anahtarı
+        run: php -r "file_exists('.env') || copy('.env.example', '.env');" && php artisan key:generate
+
+      - name: Pint (kod stili)
+        run: vendor/bin/pint --test
+
+      - name: Larastan (statik analiz)
+        run: vendor/bin/phpstan analyse --no-progress --memory-limit=1G
+
+      - name: Migration smoke (temiz DB)
+        run: php artisan migrate:fresh --force
+
+      - name: Frontend production build
+        run: npm run build
+
+      - name: Test DB hazırla
+        run: |
+          PGPASSWORD=visfor_dev psql -h 127.0.0.1 -U visfor -c "DROP DATABASE IF EXISTS visfor360_test;"
+          PGPASSWORD=visfor_dev psql -h 127.0.0.1 -U visfor -c "CREATE DATABASE visfor360_test;"
+
+      - name: PHPUnit
+        run: php vendor/bin/phpunit

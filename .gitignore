@@ -1,27 +1,30 @@
-# Visfor360 .gitignore
+# Visfor360 .gitignore (Laravel 13 skeleton + proje özel)
 
 # --- Gizli / müşteri verisi (public repoya girmez) ---
 /references/
 /secrets/
-*.env
-!.env.example
+.env
 .env.*
-!.env.ci
+!.env.example
+/auth.json
+/storage/*.key
 
 # --- Bağımlılıklar ---
 /vendor/
 /node_modules/
-/bower_components/
 
 # --- Laravel runtime ---
-/storage/*.key
-/storage/app/private/*
-/storage/app/public/*
+/storage/pail
 /storage/framework/cache/*
 /storage/framework/sessions/*
 /storage/framework/views/*
 /storage/logs/*
+/storage/app/private/*
+/storage/app/public/*
 /bootstrap/cache/*
+/bootstrap/ssr
+/database/database.sqlite
+/public/fonts-manifest.dev.json
 !**/.gitignore
 
 # --- Derleme çıktıları ---
@@ -32,6 +35,7 @@
 # --- Test / ölçüm ---
 /.phpunit.cache
 /.phpunit.result.cache
+.phpunit.result.cache
 /coverage*
 /playwright-report/
 /test-results/
@@ -40,10 +44,31 @@
 # --- IDE / OS ---
 /.idea
 /.vscode
-*.swp
+/.zed
+/.fleet
+/.nova
+/.cursor
+/.claude
+/.codex
+/.agents
+/.grok
+/.junie
+/.kiro
+/.factory
+/.pi
+/.amp
+/.mcp.json
+/boost.json
+/opencode.json
+/opencode.jsonc
+/.phpactor.json
+.phpactor.json
 .DS_Store
 Thumbs.db
+*.swp
+npm-debug.log
+yarn-error.log
+*.log
 
-# --- Yerel yardımcılar ---
+# --- Yerel yardımcılar (repo dışı) ---
 /tools/
-/*.log
