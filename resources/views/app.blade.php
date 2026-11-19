@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title inertia>{{ config('app.name', 'Visfor360') }}</title>
         @viteReactRefresh
+        @routes
         @vite(['resources/css/app.css', 'resources/js/app.tsx'])
         @inertiaHead
     </head>

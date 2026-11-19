@@ -3,7 +3,74 @@
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 
+/*
+ * Visfor360 — Merkezi tasarım token'ları (docs/design-system.md ile eşleşir).
+ * GEÇİCİ NÖTR TEMA: Marka varlığı (logo/renk/font) müşteriden bekleniyor;
+ * geldiğinde yalnız bu blok güncellenir, bileşenlere dokunulmaz (brand skill).
+ * Bileşenlerde raw hex kullanmayın — buradaki token'ları kullanın.
+ */
 @theme {
+    /* Renkler — nötr kurumsal mavi-gri palet (geçici) */
+    --color-background: oklch(0.985 0.002 247.9);
+    --color-surface: oklch(1 0 0);
+    --color-surface-muted: oklch(0.967 0.003 247.9);
+    --color-foreground: oklch(0.208 0.042 265.8);
+    --color-muted-foreground: oklch(0.446 0.03 256.8);
+    --color-border: oklch(0.929 0.013 255.5);
+    --color-primary: oklch(0.546 0.215 262.9);
+    --color-primary-hover: oklch(0.482 0.196 262.9);
+    --color-primary-foreground: oklch(0.985 0.002 247.9);
+    --color-accent: oklch(0.709 0.17 199.3);
+    --color-success: oklch(0.627 0.17 149.2);
+    --color-success-bg: oklch(0.955 0.054 149.2);
+    --color-warning: oklch(0.769 0.157 70.1);
+    --color-warning-bg: oklch(0.97 0.059 86.6);
+    --color-danger: oklch(0.577 0.215 27.3);
+    --color-danger-bg: oklch(0.955 0.038 27.3);
+    --color-info: oklch(0.623 0.188 259.8);
+    --color-info-bg: oklch(0.955 0.044 241.1);
+
+    /* Tipografi — sistem font yığını (marka fontu müşteri kararı) */
     --font-sans: ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
+
+    /* Radius ölçeği */
+    --radius-sm: 0.25rem;
+    --radius-md: 0.375rem;
+    --radius-lg: 0.5rem;
+    --radius-xl: 0.75rem;
+
+    /* Gölgeler (sınırlı elevation kullanımı) */
+    --shadow-card: 0 1px 2px 0 rgb(15 23 42 / 0.06);
+    --shadow-popover: 0 4px 16px 0 rgb(15 23 42 / 0.12);
+
+    /* Z-index katmanları */
+    --z-dropdown: 50;
+    --z-dialog: 100;
+    --z-toast: 150;
+
+    /* Hareket — prefers-reduced-motion için bileşenlerde transition'lar kısaltılır */
+    --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+    --duration-fast: 120ms;
+    --duration-base: 180ms;
+
+    /* Odak halkası */
+    --focus-ring: 0 0 0 2px var(--color-background), 0 0 0 4px var(--color-primary);
+}
+
+/* Klavye odak görünürlüğü (WCAG 2.2 focus-visible) */
+:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+/* Azaltılmış hareket tercihi */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
 }
