@@ -9,6 +9,8 @@ use App\Domain\Customers\Models\CustomerType;
 use App\Domain\Customers\Models\CustomFieldDefinition;
 use App\Domain\Customers\Models\CustomFieldValue;
 use App\Domain\Documents\Actions\DocumentService;
+use App\Domain\Documents\Models\Document;
+use App\Domain\Documents\Models\DocumentType;
 use App\Http\Controllers\Controller;
 use App\Models\AuditEvent;
 use Illuminate\Database\Eloquent\Collection;
@@ -126,16 +128,16 @@ class CustomerController extends Controller
             'fieldDefinitions' => $this->activeFieldDefinitions(),
             'contacts' => $customer->contacts,
             'documentRows' => collect(app(DocumentService::class)->statusFor($customer))->map(fn (array $row) => [
-                'type_id' => $row['type']->id,
-                'type_label' => $row['type']->label,
-                'required' => (bool) $row['type']->required,
-                'status' => $row['status'],
-                'warn_days' => $row['type']->validity_warn_days,
-                'document' => $row['document'] !== null ? [
+                'type_id' => $row['type'] instanceof DocumentType ? $row['type']->id : 0,
+                'type_label' => $row['type'] instanceof DocumentType ? $row['type']->label : '',
+                'required' => $row['type'] instanceof DocumentType ? (bool) $row['type']->required : false,
+                'status' => is_string($row['status']) ? $row['status'] : '',
+                'warn_days' => $row['type'] instanceof DocumentType ? $row['type']->validity_warn_days : 30,
+                'document' => $row['document'] instanceof Document ? [
                     'id' => $row['document']->id,
                     'original_name' => $row['document']->original_name,
                     'size_bytes' => $row['document']->size_bytes,
-                    'valid_until' => $row['document'] !== null && $row['document']->valid_until !== null ? $row['document']->valid_until->format('Y-m-d') : null,
+                    'valid_until' => $row['document']->valid_until !== null ? $row['document']->valid_until->format('Y-m-d') : null,
                 ] : null,
             ])->all(),
         ]);
