@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Middleware\EnsurePortalAccess;
 use App\Http\Middleware\HandleInertiaRequests;
+use App\Http\Middleware\RedirectIfPortalAuthenticated;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -18,6 +20,12 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(append: [
             HandleInertiaRequests::class,
             AuthenticateSession::class,
+        ]);
+
+        // Müşteri portalı (Prompt 15): ayrı guard middleware'leri
+        $middleware->alias([
+            'portal.access' => EnsurePortalAccess::class,
+            'portal.guest' => RedirectIfPortalAuthenticated::class,
         ]);
 
         $middleware->redirectGuestsTo(fn () => route('login'));

@@ -20,6 +20,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *
  * @property PipelineStage|null $currentStage
  * @property Carbon|null $archived_at
+ * @property Carbon|null $start_date
+ * @property Carbon|null $due_date
  */
 class Project extends Model
 {

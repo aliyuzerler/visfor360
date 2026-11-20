@@ -15,6 +15,8 @@ use App\Http\Controllers\HealthController;
 use App\Http\Controllers\Opportunities\OpportunityController;
 use App\Http\Controllers\Partners\PartnerController;
 use App\Http\Controllers\PlaceholderController;
+use App\Http\Controllers\Portal\PortalAuthController;
+use App\Http\Controllers\Portal\PortalDashboardController;
 use App\Http\Controllers\Projects\PipelineController;
 use App\Http\Controllers\Projects\ProjectController;
 use App\Http\Controllers\Projects\ServiceTypeController;
@@ -51,6 +53,19 @@ Route::get('/', function () {
  * Uygulama kabuğu ekranları (docs/SCREEN_MAP.md ile eşleşir).
  * Tüm rotalar auth + ilgili izin middleware'ıyla korunur; UI gizleme yeterli değildir.
  */
+// Müşteri Portalı (Prompt 15) — ayrı guard + sade layout (ADR-0014)
+Route::middleware(['web'])->prefix('portal')->name('portal.')->group(function (): void {
+    Route::middleware('portal.guest')->group(function (): void {
+        Route::get('/login', [PortalAuthController::class, 'showLogin'])->name('login');
+        Route::post('/login', [PortalAuthController::class, 'login'])->name('login.submit');
+    });
+    Route::middleware('portal.access')->group(function (): void {
+        Route::get('/', [PortalDashboardController::class, 'dashboard'])->name('dashboard');
+        Route::post('/documents/upload', [PortalDashboardController::class, 'uploadDocument'])->name('documents.upload');
+        Route::post('/logout', [PortalAuthController::class, 'logout'])->name('logout');
+    });
+});
+
 Route::middleware(['auth'])->prefix('app')->group(function (): void {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
 
