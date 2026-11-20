@@ -13,6 +13,7 @@ use App\Http\Controllers\Finance\FinanceController;
 use App\Http\Controllers\Goals\GoalController;
 use App\Http\Controllers\HealthController;
 use App\Http\Controllers\Opportunities\OpportunityController;
+use App\Http\Controllers\Partners\PartnerController;
 use App\Http\Controllers\PlaceholderController;
 use App\Http\Controllers\Projects\PipelineController;
 use App\Http\Controllers\Projects\ProjectController;
@@ -146,6 +147,25 @@ Route::middleware(['auth'])->prefix('app')->group(function (): void {
         ->middleware('can:create,App\\Domain\\Opportunities\\Models\\Opportunity')->name('checkups.import');
     Route::post('/opportunities/{opportunity}/convert', [OpportunityController::class, 'convert'])
         ->middleware('can:convert,opportunity')->name('opportunities.convert');
+
+    // Çözüm ortakları (Prompt 14) — partner portal/login YOK (ADR-0013)
+    Route::get('/partners', [PartnerController::class, 'index'])->name('partners.index');
+    Route::get('/partners/create', [PartnerController::class, 'create'])
+        ->middleware('can:create,App\\Domain\\Partners\\Models\\Partner')->name('partners.create');
+    Route::post('/partners', [PartnerController::class, 'store'])
+        ->middleware('can:create,App\\Domain\\Partners\\Models\\Partner')->name('partners.store');
+    Route::get('/partners/{partner}', [PartnerController::class, 'show'])
+        ->middleware('can:view,partner')->name('partners.show');
+    Route::put('/partners/{partner}', [PartnerController::class, 'update'])
+        ->middleware('can:update,partner')->name('partners.update');
+    Route::post('/partners/{partner}/works', [PartnerController::class, 'storeWork'])
+        ->middleware('can:update,partner')->name('partners.works.store');
+    Route::post('/partners/{partner}/agreements', [PartnerController::class, 'storeAgreement'])
+        ->middleware('can:update,partner')->name('partners.agreements.store');
+    Route::patch('/partners/{partner}/agreements/{agreement}/approve', [PartnerController::class, 'approveAgreement'])
+        ->middleware('can:update,partner')->name('partners.agreements.approve');
+    Route::post('/partners/{partner}/works/{work}/commission', [PartnerController::class, 'calculateCommission'])
+        ->middleware('can:update,partner')->name('partners.commission.calculate');
 
     // Finans (Prompt 09) — resmi muhasebe değildir (SRS notu)
     Route::get('/finance', [FinanceController::class, 'index'])

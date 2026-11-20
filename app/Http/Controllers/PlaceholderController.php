@@ -16,12 +16,6 @@ class PlaceholderController extends Controller
      * @var array<string, array{title: string, description: string, subScreens: string[], phase: string}>
      */
     private const PAGES = [
-        'partners' => [
-            'title' => 'Çözüm Ortakları',
-            'description' => 'Dış paydaşların yürüttüğü işler, yönlendirme, komisyon ve hakediş takibi. Oran/matrah kuralları müşteri kararıdır.',
-            'subScreens' => ['Partner listesi ve sözleşme bilgisi', 'İş/referral kayıtları', 'Komisyon tahakkuku ve hakediş ödemesi'],
-            'phase' => '2',
-        ],
         'reports' => [
             'title' => 'Raporlar',
             'description' => "Müşteri, proje, departman, görev, hedef ve finans raporları. Faz 1'de temel raporlar; Faz 2'de gelişmiş kırılımlar.",
