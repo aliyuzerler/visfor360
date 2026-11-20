@@ -46,3 +46,5 @@ Müşteri portalı Bölüm 2.2'de Faz 2/3 hedefi, Bölüm 7'de Faz 2 olarak yaz�
 
 ## Geliştirme kuralı
 P0 yanıtı yoksa agent etki ve soru raporu verir; üretim iş kuralını varsayımla kodlamaz. UI iskeleti ve sentetik test verisi ilerleyebilir; gerçek iş formülü sabitlenmez.
+
+- **Faz 2 blokaj (ADR-0010):** Check-Up soru seti, cevap türleri ve cevap-hizmet karar tablosu müşteriden bekleniyor. Kural motoru hazır; üretim kuralları girdiyle aktive edilecek.

@@ -3,6 +3,7 @@
 use App\Domain\Customers\Models\CustomFieldDefinition;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\PasswordResetController;
+use App\Http\Controllers\Checkups\CheckupController;
 use App\Http\Controllers\Customers\ContactController;
 use App\Http\Controllers\Customers\CustomerController;
 use App\Http\Controllers\Customers\CustomFieldController;
@@ -120,6 +121,19 @@ Route::middleware(['auth'])->prefix('app')->group(function (): void {
         ->name('tasks.assign');
     Route::patch('/tasks/{task}/archive', [TaskController::class, 'archive'])
         ->name('tasks.archive');
+
+    // Check-Up (Prompt 11) — müşteri soru seti/rule matrix bekleniyor (ADR-0010)
+    Route::get('/checkups', [CheckupController::class, 'index'])->name('checkups.index');
+    Route::get('/checkups/create', [CheckupController::class, 'create'])
+        ->middleware('can:create,App\\Domain\\Checkups\\Models\\CheckupSession')->name('checkups.create');
+    Route::post('/checkups', [CheckupController::class, 'store'])
+        ->middleware('can:create,App\\Domain\\Checkups\\Models\\CheckupSession')->name('checkups.store');
+    Route::get('/checkups/{session}', [CheckupController::class, 'show'])
+        ->middleware('can:view,session')->name('checkups.show');
+    Route::patch('/checkups/{session}/complete', [CheckupController::class, 'complete'])
+        ->middleware('can:create,App\\Domain\\Checkups\\Models\\CheckupSession')->name('checkups.complete');
+    Route::get('/settings/checkups', [CheckupController::class, 'templates'])
+        ->middleware('can:manage,App\\Domain\\Checkups\\Models\\CheckupTemplate')->name('settings.checkups.index');
 
     // Finans (Prompt 09) — resmi muhasebe değildir (SRS notu)
     Route::get('/finance', [FinanceController::class, 'index'])

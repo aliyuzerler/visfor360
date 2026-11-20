@@ -45,7 +45,7 @@ export const NAV_GROUPS: NavGroup[] = [
         key: 'growth',
         label: 'Gelişim (Faz 2)',
         items: [
-            { key: 'checkups', label: 'Check-Up', route: 'checkups.index', icon: 'ClipboardCheck', phase: '2', placeholder: true },
+            { key: 'checkups', label: 'Check-Up', route: 'checkups.index', icon: 'ClipboardCheck', phase: '2' },
             { key: 'opportunities', label: 'Fırsat Havuzu', route: 'opportunities.index', icon: 'Lightbulb', phase: '2', placeholder: true },
             { key: 'partners', label: 'Çözüm Ortakları', route: 'partners.index', icon: 'Handshake', phase: '2', placeholder: true },
         ],

@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Domain\Checkups\Models\CheckupSession;
+use App\Domain\Checkups\Models\CheckupTemplate;
 use App\Domain\Customers\Models\Customer;
 use App\Domain\Customers\Models\CustomFieldDefinition;
 use App\Domain\Documents\Models\Document;
@@ -14,6 +16,7 @@ use App\Models\AuditEvent;
 use App\Models\Department;
 use App\Models\Role;
 use App\Models\User;
+use App\Policies\Checkups\CheckupPolicy;
 use App\Policies\Customers\CustomerPolicy;
 use App\Policies\Customers\CustomFieldPolicy;
 use App\Policies\Documents\DocumentPolicy;
@@ -65,6 +68,8 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(Task::class, TaskPolicy::class);
         Gate::policy(StrategicGoal::class, StrategicGoalPolicy::class);
         Gate::policy(FinancialEntry::class, FinancialEntryPolicy::class);
+        Gate::policy(CheckupTemplate::class, CheckupPolicy::class);
+        Gate::policy(CheckupSession::class, CheckupPolicy::class);
 
         // Her registry izni için server-side Gate tanımı.
         // Yetki yalnızca UI'da gizlenmez; her route ek olarak can: middleware ve

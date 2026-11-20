@@ -16,12 +16,6 @@ class PlaceholderController extends Controller
      * @var array<string, array{title: string, description: string, subScreens: string[], phase: string}>
      */
     private const PAGES = [
-        'checkups' => [
-            'title' => 'Check-Up',
-            'description' => 'Şirket Check-Up şablonları, soru bankası, oturumlar ve deklaratif kural motoru. Soru/kural seti müşteri girdisiyle tanımlanır; eval çalıştırılmaz.',
-            'subScreens' => ['Şablon ve sürüm yönetimi', 'Soru bankası', 'Oturum, sonuç ve gelişim yol haritası'],
-            'phase' => '2',
-        ],
         'opportunities' => [
             'title' => 'Fırsat Havuzu',
             'description' => 'Check-Up tespitleri insan onayına düşer. Müşteri mutabakatı ve yetkili onayı olmadan işe dönüşmez.',
