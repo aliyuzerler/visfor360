@@ -144,6 +144,8 @@ Route::middleware(['auth'])->prefix('app')->group(function (): void {
         ->middleware('can:decide,opportunity')->name('opportunities.decide');
     Route::post('/checkups/{result}/import', [OpportunityController::class, 'importFromCheckup'])
         ->middleware('can:create,App\\Domain\\Opportunities\\Models\\Opportunity')->name('checkups.import');
+    Route::post('/opportunities/{opportunity}/convert', [OpportunityController::class, 'convert'])
+        ->middleware('can:convert,opportunity')->name('opportunities.convert');
 
     // Finans (Prompt 09) — resmi muhasebe değildir (SRS notu)
     Route::get('/finance', [FinanceController::class, 'index'])

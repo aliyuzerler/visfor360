@@ -5,7 +5,7 @@ import { Textarea } from '@/components/ui/inputs';
 import { AppShell } from '@/components/app/app-shell';
 import { EmptyState, PageHeader } from '@/components/ui/page';
 import { route } from '@/lib/route';
-import { Head, Link, useForm } from '@inertiajs/react';
+import { Head, Link, router, useForm } from '@inertiajs/react';
 import { toast } from '@/components/ui/toast';
 
 interface HistoryRow {
@@ -32,6 +32,8 @@ export default function OpportunityShow({
         detection_reason: string | null;
         discussion_note: string | null;
         decision_note: string | null;
+        converted_project_id: number | null;
+        converted_at: string | null;
         decided_at: string | null;
         decided_by: string | null;
         is_duplicate: boolean;
@@ -43,7 +45,7 @@ export default function OpportunityShow({
         status_set_is_example: boolean;
     };
     history: HistoryRow[];
-    can: { decide: boolean };
+    can: { decide: boolean; convert: boolean };
 }) {
     const form = useForm({ status: 'approved', discussion_note: '', decision_note: '' });
 
@@ -73,6 +75,20 @@ export default function OpportunityShow({
                             <Badge variant={opportunity.status === 'approved' ? 'success' : opportunity.status === 'rejected' ? 'danger' : 'info'}>
                                 {opportunity.status}
                             </Badge>
+                            {opportunity.converted_project_id ? (
+                                <Badge variant="success">Projeye dönüştü</Badge>
+                            ) : can.convert && opportunity.status === 'approved' && (
+                                <button
+                                    type="button"
+                                    onClick={() => router.post(route('opportunities.convert', opportunity.id), {}, {
+                                        onSuccess: () => toast.success('Fırsat projeye dönüştürüldü.'),
+                                        onError: () => toast.error('Dönüşüm reddedildi; koşulları kontrol edin.'),
+                                    })}
+                                    className="rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-white hover:bg-primary/90"
+                                >
+                                    Projeye dönüştür
+                                </button>
+                            )}
                             {opportunity.is_duplicate && <Badge variant="warning">Mükerrer</Badge>}
                             {opportunity.status_set_is_example && <Badge variant="info">Örnek statü seti</Badge>}
                         </>

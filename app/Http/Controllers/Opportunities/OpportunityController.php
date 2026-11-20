@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Opportunities;
 
 use App\Domain\Checkups\Models\CheckupResult;
+use App\Domain\Opportunities\Actions\ConvertOpportunityToProject;
 use App\Domain\Opportunities\Actions\OpportunityService;
 use App\Domain\Opportunities\Models\Opportunity;
 use App\Domain\Opportunities\Models\OpportunityHistory;
@@ -80,6 +81,8 @@ class OpportunityController extends Controller
                 'discussion_note' => $opportunity->discussion_note,
                 'decision_note' => $opportunity->decision_note,
                 'decided_at' => $opportunity->decided_at?->format('d.m.Y H:i'),
+                'converted_project_id' => $opportunity->converted_project_id,
+                'converted_at' => $opportunity->converted_at?->format('d.m.Y H:i'),
                 'decided_by' => $opportunity->decidedBy?->name,
                 'is_duplicate' => $opportunity->is_duplicate,
                 'duplicate_of_id' => $opportunity->duplicate_of_id,
@@ -101,8 +104,17 @@ class OpportunityController extends Controller
             'roadmap_status' => $roadmapItem?->status,
             'can' => [
                 'decide' => auth()->user()->can('decide', $opportunity),
+                'convert' => auth()->user()->can('convert', $opportunity),
             ],
         ]);
+    }
+
+    /** Onaylı fırsat → proje (idempotent; hata → rollback, yarım veri yok). */
+    public function convert(Request $request, Opportunity $opportunity, ConvertOpportunityToProject $converter): RedirectResponse
+    {
+        $project = $converter->convert($opportunity, $request->user());
+
+        return redirect()->route('projects.show', $project)->with('success', 'Fırsat projeye dönüştürüldü.');
     }
 
     /** Check-Up sonucunu yol haritasına + fırsat havuzuna aktar. */

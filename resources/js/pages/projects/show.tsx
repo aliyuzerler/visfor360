@@ -47,6 +47,7 @@ export default function ProjectShow({
         stages: StageRow[];
         pipeline_label: string;
         pipeline_is_example: boolean;
+        source_opportunity: { id: number; title: string } | null;
     };
     history: HistoryRow[];
     can: { update: boolean; archive: boolean };
@@ -96,6 +97,15 @@ export default function ProjectShow({
                         </>
                     }
                 />
+
+                {project.source_opportunity && (
+                    <p className="mb-4 text-xs text-muted-foreground" role="note">
+                        Kaynak fırsat:{' '}
+                        <Link href={route('opportunities.show', project.source_opportunity.id)} className="text-primary hover:underline">
+                            {project.source_opportunity.title}
+                        </Link>
+                    </p>
+                )}
 
                 <dl className="mb-6 grid gap-x-8 gap-y-3 rounded-xl border border-border bg-surface p-5 sm:grid-cols-2 lg:grid-cols-4">
                     <div>

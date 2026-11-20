@@ -40,4 +40,10 @@ class OpportunityPolicy
     {
         return $user->can('opportunities.archive');
     }
+
+    /** Dönüşüm: onay yetkisi + proje oluşturma yetkisi birlikte gerekir. */
+    public function convert(User $user, Opportunity $opportunity): bool
+    {
+        return $user->can('opportunities.approve') && $user->can('projects.create');
+    }
 }

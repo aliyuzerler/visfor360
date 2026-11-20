@@ -4,6 +4,7 @@ namespace App\Domain\Opportunities\Models;
 
 use App\Domain\Audit\Auditable;
 use App\Domain\Customers\Models\Customer;
+use App\Domain\Projects\Models\Project;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -19,6 +20,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property Carbon|null $archived_at
  * @property Carbon|null $decided_at
  * @property Carbon|null $target_date
+ * @property Carbon|null $converted_at
  */
 class Opportunity extends Model
 {
@@ -35,6 +37,7 @@ class Opportunity extends Model
         'detection_reason', 'status', 'responsible_user_id', 'estimated_value',
         'estimated_currency', 'target_date', 'discussion_note', 'decision_note',
         'decided_by', 'decided_at', 'is_duplicate', 'duplicate_of_id', 'created_by',
+        'converted_project_id', 'converted_at', 'converted_by',
     ];
 
     protected function casts(): array
@@ -78,5 +81,22 @@ class Opportunity extends Model
     public function decidedBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'decided_by');
+    }
+
+    /**
+     * Dönüşümün ürettiği proje (1:1 — çoklu iş müşteri kararı, ADR-0012).
+     *
+     * @return BelongsTo<Project, $this>
+     */
+    public function convertedProject(): BelongsTo
+    {
+        return $this->belongsTo(Project::class, 'converted_project_id');
+    }
+
+    public function hasApprovedAgreement(): bool
+    {
+        return $this->status === 'approved'
+            && $this->discussion_note !== null
+            && trim($this->discussion_note) !== '';
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Projects;
 
 use App\Domain\Audit\AuditLogger;
 use App\Domain\Customers\Models\Customer;
+use App\Domain\Opportunities\Models\Opportunity;
 use App\Domain\Projects\Actions\ProjectService;
 use App\Domain\Projects\Models\PipelineStage;
 use App\Domain\Projects\Models\Project;
@@ -129,6 +130,10 @@ class ProjectController extends Controller
                 ]),
                 'pipeline_label' => $pipeline->label,
                 'pipeline_is_example' => $pipeline->is_example,
+                'source_opportunity' => Opportunity::query()
+                    ->where('converted_project_id', $project->id)
+                    ->first()
+                    ?->only(['id', 'title']),
             ],
             'history' => $project->stageHistory()->with(['fromStage:id,label', 'toStage:id,label'])->limit(30)->get()
                 ->map(fn ($entry) => [
