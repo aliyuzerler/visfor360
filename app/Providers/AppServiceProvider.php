@@ -53,6 +53,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // API rate limit: 60 istek/dakika, IP bazlı (Prompt 16). Cache
+        // tabanlı RateLimiter — Redis zorunluluğu yok (ADR-0015).
+        RateLimiter::for('api', fn (Request $request) => Limit::perMinute(60)->by((string) $request->ip()));
+
         // Giriş istekleri için brute-force sınırı (5 deneme/dakika, e-posta+IP başına).
         RateLimiter::for('login', function (Request $request) {
             $key = strtolower((string) $request->input('email')).'|'.$request->ip();

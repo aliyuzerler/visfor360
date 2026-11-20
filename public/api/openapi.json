@@ -1,0 +1,42 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Visfor360 API",
+    "version": "1.0.0",
+    "description": "Sadece /api/v1 iskeleti; gerçek WhatsApp/e-posta/muhasebe entegrasyonu kapsam dışıdır (ADR-0015)."
+  },
+  "paths": {
+    "/api/v1/customers": {
+      "get": {
+        "summary": "Müşteri listesi",
+        "parameters": [
+          { "name": "per_page", "in": "query", "schema": { "type": "integer", "maximum": 100, "default": 20 } },
+          { "name": "search", "in": "query", "schema": { "type": "string" } },
+          { "name": "city", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "Sayfalı müşteri listesi" },
+          "401": { "description": "Token yok/geçersiz" },
+          "403": { "description": "Scope yetersiz" }
+        },
+        "security": [ { "bearerAuth": [] } ]
+      }
+    },
+    "/api/v1/customers/{id}": {
+      "get": {
+        "summary": "Müşteri detayı",
+        "parameters": [ { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } } ],
+        "responses": {
+          "200": { "description": "Müşteri" },
+          "404": { "description": "Bulunamadı" }
+        },
+        "security": [ { "bearerAuth": [] } ]
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": { "type": "http", "scheme": "bearer" }
+    }
+  }
+}
