@@ -17,6 +17,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * Otomatik proje/görev dönüşümü YOK (Prompt 13'te onaylı dönüşüm akışı).
  *
  * @property Carbon|null $archived_at
+ * @property Carbon|null $decided_at
+ * @property Carbon|null $target_date
  */
 class Opportunity extends Model
 {

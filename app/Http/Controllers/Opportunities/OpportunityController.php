@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Opportunities;
 use App\Domain\Checkups\Models\CheckupResult;
 use App\Domain\Opportunities\Actions\OpportunityService;
 use App\Domain\Opportunities\Models\Opportunity;
+use App\Domain\Opportunities\Models\OpportunityHistory;
 use App\Domain\Opportunities\Models\RoadmapItem;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
@@ -88,7 +89,7 @@ class OpportunityController extends Controller
                 'status_set' => Opportunity::STATUS_EXAMPLE_SET,
                 'status_set_is_example' => true,
             ],
-            'history' => $opportunity->history->map(fn ($entry) => [
+            'history' => $opportunity->history->map(fn (OpportunityHistory $entry) => [
                 'id' => $entry->id,
                 'field' => $entry->field,
                 'from' => $entry->old_value,

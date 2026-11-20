@@ -2,6 +2,7 @@
 
 namespace App\Domain\Opportunities\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -9,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * Fırsat kararı geçmişi: status/alan değişiklikleri + aktör + mutabakat notu.
  *
  * @property Opportunity $opportunity
+ * @property Carbon $changed_at
  */
 class OpportunityHistory extends Model
 {
