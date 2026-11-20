@@ -55,7 +55,7 @@ export default function GoalsIndex({ vision, goals }: { vision: { content: strin
                     </header>
                     {goals.every((goal) => goal.is_placeholder) && (
                         <p className="mb-3 text-xs text-muted-foreground" role="note">
-                            Aşağıdaki 12 slot PLACEHOLDER'dır: hedef adları ve formüller müşteri kararı bekliyor (örnek veri üretim verisi değildir).
+                            Aşağıdaki 12 hedef slotu yönetim panelinden düzenlenir; formüller müşteri kararı bekliyor (örnek veri üretim verisi değildir).
                         </p>
                     )}
                     <ul className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">

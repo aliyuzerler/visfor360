@@ -29,8 +29,8 @@ export const NAV_GROUPS: NavGroup[] = [
         items: [
             { key: 'dashboard', label: 'Genel Bakış', route: 'dashboard', icon: 'LayoutDashboard', phase: '1' },
             { key: 'customers', label: 'Müşteriler', route: 'customers.index', icon: 'Building2', phase: '1' },
-            { key: 'projects', label: 'Projeler', route: 'projects.index', icon: 'FolderKanban', phase: '1', placeholder: true },
-            { key: 'tasks', label: 'Görevler', route: 'tasks.index', icon: 'ListChecks', phase: '1', placeholder: true },
+            { key: 'projects', label: 'Projeler', route: 'projects.index', icon: 'FolderKanban', phase: '1' },
+            { key: 'tasks', label: 'Görevler', route: 'tasks.index', icon: 'ListChecks', phase: '1' },
         ],
     },
     {
@@ -43,7 +43,7 @@ export const NAV_GROUPS: NavGroup[] = [
     },
     {
         key: 'growth',
-        label: 'Gelişim (Faz 2)',
+        label: 'Gelişim',
         items: [
             { key: 'checkups', label: 'Check-Up', route: 'checkups.index', icon: 'ClipboardCheck', phase: '2' },
             { key: 'opportunities', label: 'Fırsat Havuzu', route: 'opportunities.index', icon: 'Lightbulb', phase: '2' },
@@ -54,7 +54,7 @@ export const NAV_GROUPS: NavGroup[] = [
         key: 'admin',
         label: 'Yönetim',
         items: [
-            { key: 'reports', label: 'Raporlar', route: 'reports.index', icon: 'BarChart3', phase: '1', placeholder: true },
+            { key: 'reports', label: 'Raporlar', route: 'reports.index', icon: 'BarChart3', phase: '1' },
             { key: 'settings', label: 'Ayarlar', route: 'settings.index', icon: 'Settings', phase: '1' },
         ],
     },

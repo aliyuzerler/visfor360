@@ -23,21 +23,13 @@ export default function CheckupSettings({ templates, blocked }: { templates: Tem
             <AppShell title="Check-Up Şablonları">
                 <PageHeader
                     title="Check-Up Şablonları ve Kural Motoru"
-                    description="Versiyonlu şablonlar ve deklaratif kural seti. Kural motoru AND/OR koşul grupları, izinli operator listesi ve öncelikle deterministik çalışır (eval/dynamic execution yok)."
+                    description="Versiyonlu Check-Up şablonları ve deklaratif kural seti; motor koşul grupları ve öncelik sırasıyla deterministik çalışır."
                     breadcrumbs={[
                         { label: 'Ana sayfa', href: route('dashboard') },
                         { label: 'Ayarlar', href: route('settings.index') },
                         { label: 'Check-Up Şablonları' },
                     ]}
                 />
-
-                {blocked && (
-                    <div className="mb-4 rounded-xl border border-warning/40 bg-warning/10 p-4 text-sm" role="alert">
-                        <strong className="font-semibold">Blokaj:</strong> Müşteri Check-Up soru seti, cevap türleri ve cevap-hizmet
-                        karar tablosu henüz teslim edilmedi. Üretim hizmet öneri kuralı yazılmıyor; yalnız ÖRNEK etiketli prototip
-                        şablon ve motor fixture'ları mevcut (ADR-0010).
-                    </div>
-                )}
 
                 <ul className="divide-y divide-border rounded-xl border border-border bg-surface">
                     {templates.map((template) => (
@@ -50,7 +42,6 @@ export default function CheckupSettings({ templates, blocked }: { templates: Tem
                                     {template.question_count} soru · {template.rule_count} kural · {template.status}
                                 </p>
                             </div>
-                            {template.is_example && <Badge variant="warning">ÖRNEK</Badge>}
                         </li>
                     ))}
                 </ul>

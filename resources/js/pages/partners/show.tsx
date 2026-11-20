@@ -122,7 +122,7 @@ export default function PartnerShow({
                 <section aria-label="Anlaşmalar" className="mb-6">
                     <h2 className="mb-3 text-base font-semibold">Komisyon anlaşmaları</h2>
                     <p className="mb-3 text-xs text-muted-foreground">
-                        Komisyon tipi örnek settir (fixed_amount / percent_of_value — ADR-0013); onaylanmadan hesaplama yapılamaz.
+                        Sabit tutar ya da yüzde tipinde anlaşma; onaylanmadan komisyon hesaplanamaz.
                     </p>
                     <ul className="divide-y divide-border rounded-xl border border-border bg-surface">
                         {agreements.map((agreement) => (

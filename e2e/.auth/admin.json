@@ -1,0 +1,25 @@
+{
+  "cookies": [
+    {
+      "name": "XSRF-TOKEN",
+      "value": "eyJpdiI6ImZyRnhKdW43U3hQMXd2NXBrai9DWlE9PSIsInZhbHVlIjoiMy9YK3JONEExc3JNUm53SGZQTTFqSHFwUGx0bnZjbjcvempYZEYxNnNtS0YvZWJJL0hadkphRXFGbDVnZ01tSmhVZUxtanMwWW0vL3JBZThFd3Q3SFIyYVg4VTgyS0VBTGpQSWFSRVVlYkVTMzVzQlZObzQ4ODFLMHE2S0ZyQWIiLCJtYWMiOiI3YjBhMjVhNmIxZTQ1NmZlNDViZjVhYzk3MTkyMTAzNjg0ODc1MmU1ZGI3MjUyODg0OWI0ZDVhMzZlNTgzOTMzIiwidGFnIjoiIn0%3D",
+      "domain": "127.0.0.1",
+      "path": "/",
+      "expires": 1795148533.985683,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "visfor360-session",
+      "value": "eyJpdiI6InovL2tBV0VLdWV3VU14dElpZHZRenc9PSIsInZhbHVlIjoiMy9CZDZhaWZsNnZpOE9sYWdsaE44NWhza2ZyUmxTZDBIcEdBZVFQcXVMeUYvT1NaOE5tZlhaUFNLd2VhYTNrbWU0WFFqK05hSnlCQjZ6NnpzNHRuKzNOeXN3VDFML0N5ZXoxdDg2YXVKUlFDdlpZcS9JOTR6MDgvTnZ0Umx1MG4iLCJtYWMiOiJiNDVlZTIyMDY3MTMzY2Q4Yzk4MDkwZWVhNzFlMDVmYjVmZDEwZjEwMjY3OTNmYzE4Y2I0NmM4YzQzZWUwZDBjIiwidGFnIjoiIn0%3D",
+      "domain": "127.0.0.1",
+      "path": "/",
+      "expires": 1795148533.985937,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

@@ -58,7 +58,11 @@ export default function CheckupShow({
     const complete = (e: React.FormEvent) => {
         e.preventDefault();
         router.patch(route('checkups.complete', session.id), { answers: form.data }, {
-            onSuccess: () => toast.success('Check-Up tamamlandı.'),
+            onSuccess: () => {
+                toast.success('Check-Up tamamlandı.');
+                // Sonuç ve badge'i tazele (Inertia partial reload)
+                router.reload({ only: ['session', 'result'] });
+            },
             onError: (errors) => toast.error(errors.answers ?? 'Zorunlu sorular eksik.'),
         });
     };
@@ -74,7 +78,7 @@ export default function CheckupShow({
             <AppShell title="Check-Up">
                 <PageHeader
                     title={`${session.customer?.name ?? '—'} — ${session.template.title}`}
-                    description={`Şablon sürümü v${session.template_version} (oturuma kilitlendi)${session.template.is_example ? ' · ÖRNEK şablon — müşteri soru seti bekleniyor' : ''}`}
+                    description={`Şablon: ${session.template.title} · Sürüm v${session.template_version}`}
                     breadcrumbs={[
                         { label: 'Ana sayfa', href: route('dashboard') },
                         { label: 'Check-Up', href: route('checkups.index') },
@@ -158,7 +162,7 @@ export default function CheckupShow({
                                                 <strong className="text-sm">{recommendation.label}</strong>
                                             </div>
                                             <p className="mt-1 text-xs text-muted-foreground">
-                                                Kural: {recommendation.matched_rule_label ?? '—'} · Yalnız fırsat önerisi üretir; proje/görev otomatik açılmaz.
+                                                Kaynak kural: {recommendation.matched_rule_label ?? '—'}
                                             </p>
                                             <ul className="mt-2 list-disc pl-5 text-xs text-muted-foreground">
                                                 {recommendation.reasons.map((reason, reasonIndex) => (

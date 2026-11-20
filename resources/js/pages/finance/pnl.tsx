@@ -44,7 +44,7 @@ export default function PnlReport({
                     {summary.status === 'needs_configuration' ? (
                         <p className="text-sm text-muted-foreground" role="note">
                             P&L formülü müşteri örnek hesaplarıyla doğrulanmadı. Formül onaylanmadan gerçek finansal
-                            toplamlar üretilmez; bu bilinçli bir güvenlik sınırıdır (ADR-0005).
+                            toplamlar üretilmez; bu bilinçli bir güvenlik sınırıdır.
                         </p>
                     ) : (
                         <dl className="grid gap-x-8 gap-y-3 sm:grid-cols-3">

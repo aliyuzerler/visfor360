@@ -45,7 +45,7 @@ export default function OpportunitiesIndex({
             <AppShell title="Fırsat Havuzu">
                 <PageHeader
                     title="Fırsat Havuzu"
-                    description="Check-Up tespitleri buraya düşer; insan incelemesi ve müşteri mutabakatı olmadan işe dönüşmez. Statü adları örnek settir (müşteri kararı bekliyor)."
+                    description="Check-Up tespitleri insan incelemesi ve müşteri mutabakatından sonra işe dönüşür."
                     breadcrumbs={[{ label: 'Ana sayfa', href: route('dashboard') }, { label: 'Fırsat Havuzu' }]}
                 />
 

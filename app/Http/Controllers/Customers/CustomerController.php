@@ -126,6 +126,10 @@ class CustomerController extends Controller
                 'created_at' => $event->created_at->format('d.m.Y H:i'),
             ]),
             'fieldDefinitions' => $this->activeFieldDefinitions(),
+            'can' => [
+                'update' => auth()->user()->can('update', $customer),
+                'archive' => auth()->user()->can('archive', $customer),
+            ],
             'contacts' => $customer->contacts,
             'documentRows' => collect(app(DocumentService::class)->statusFor($customer))->map(fn (array $row) => [
                 'type_id' => $row['type'] instanceof DocumentType ? $row['type']->id : 0,

@@ -90,7 +90,6 @@ export default function OpportunityShow({
                                 </button>
                             )}
                             {opportunity.is_duplicate && <Badge variant="warning">Mükerrer</Badge>}
-                            {opportunity.status_set_is_example && <Badge variant="info">Örnek statü seti</Badge>}
                         </>
                     }
                 />
@@ -124,7 +123,7 @@ export default function OpportunityShow({
 
                 {opportunity.is_duplicate && (
                     <p className="mb-4 rounded-xl border border-warning/40 bg-warning/10 p-3 text-sm" role="note">
-                        Aynı müşteri + hizmet için aktif fırsat mevcut. Mükerrer kararı müşteriye aittir (ADR-0011).
+                        Aynı müşteri + hizmet için aktif fırsat mevcut.
                     </p>
                 )}
 
@@ -132,7 +131,7 @@ export default function OpportunityShow({
                     <section aria-label="Karar" className="mb-6 rounded-xl border border-border bg-surface p-4">
                         <h2 className="mb-3 text-base font-semibold">Karar</h2>
                         <p className="mb-3 text-xs text-muted-foreground">
-                            Müşteri mutabakat notu zorunludur — boş onay kabul edilmez. Ret/ertelemede gerekçe zorunludur.
+                            Karar için müşteri mutabakat notu, ret/ertelemede gerekçe zorunludur.
                         </p>
                         <form className="max-w-2xl space-y-4" onSubmit={(e) => { e.preventDefault(); decide('approved'); }}>
                             <FormField name="discussion_note" label="Müşteri mutabakat notu (kanıt/görüşme özeti)" error={form.errors.discussion_note} required>

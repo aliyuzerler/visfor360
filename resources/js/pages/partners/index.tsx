@@ -26,7 +26,7 @@ export default function PartnersIndex({ partners, filters, can }: { partners: { 
             <AppShell title="Çözüm Ortakları">
                 <PageHeader
                     title="Çözüm Ortakları"
-                    description="Dış paydaş ortakları, yönlendirme ve komisyon takibi. Ortaklar iç kayıttır; partner portal ve banka entegrasyonu kapsamda değildir."
+                    description="Dış paydaş ortakları, yönlendirme ve komisyon/hakediş takibi."
                     breadcrumbs={[{ label: 'Ana sayfa', href: route('dashboard') }, { label: 'Çözüm Ortakları' }]}
                     actions={can.create && (
                         <Button size="sm" onClick={() => router.get(route('partners.create'))}>

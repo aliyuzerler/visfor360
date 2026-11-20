@@ -13,9 +13,7 @@ export default function CheckupCreate({ templates, customers }: { templates: Tem
 
     const submit = (e: React.FormEvent) => {
         e.preventDefault();
-        form.post(route('checkups.store'), {
-            onSuccess: () => router.get(route('checkups.index')),
-        });
+        form.post(route('checkups.store'));
     };
 
     return (
@@ -43,7 +41,7 @@ export default function CheckupCreate({ templates, customers }: { templates: Tem
                                 <option value="">Seçin…</option>
                                 {templates.map((template) => (
                                     <option key={template.id} value={template.id}>
-                                        {template.title} v{template.version}{template.is_example ? ' (ÖRNEK)' : ''}
+                                        {template.title} v{template.version}
                                     </option>
                                 ))}
                             </select>

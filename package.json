@@ -5,9 +5,12 @@
     "scripts": {
         "build": "vite build",
         "dev": "vite",
-        "types:check": "tsc --noEmit"
+        "types:check": "tsc --noEmit",
+        "e2e": "playwright test",
+        "e2e:headed": "playwright test --headed"
     },
     "devDependencies": {
+        "@playwright/test": "^1.65.1",
         "@tailwindcss/vite": "^4.0.0",
         "concurrently": "^10.0.3",
         "laravel-vite-plugin": "^3.1",

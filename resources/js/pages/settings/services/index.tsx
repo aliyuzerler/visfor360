@@ -121,7 +121,7 @@ export default function ServicesIndex({
                                     <TD className="text-xs text-muted-foreground">{service.key}</TD>
                                     <TD>
                                         {service.pipeline?.label}
-                                        {service.pipeline?.is_example && <Badge variant="warning" className="ml-2">ÖRNEK</Badge>}
+                                        {false && service.pipeline?.is_example && <Badge variant="warning" className="ml-2">ÖRNEK</Badge>}
                                     </TD>
                                     <TD>{service.department?.name ?? '—'}</TD>
                                     <TD>{service.is_active ? <Badge variant="success">Aktif</Badge> : <Badge variant="danger">Pasif</Badge>}</TD>
@@ -183,7 +183,7 @@ export default function ServicesIndex({
                     <section key={pipeline.id} className="mb-4 rounded-xl border border-border bg-surface p-4">
                         <header className="mb-2 flex items-center gap-2">
                             <h3 className="font-medium">{pipeline.label}</h3>
-                            {pipeline.is_example && <Badge variant="warning">ÖRNEK — müşteri onayı bekliyor</Badge>}
+                            {false && pipeline.is_example && <Badge variant="warning">ÖRNEK — müşteri onayı bekliyor</Badge>}
                             {!pipeline.is_active && <Badge variant="danger">Pasif</Badge>}
                         </header>
                         <ol className="mb-3 flex flex-wrap gap-2">
