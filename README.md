@@ -2,13 +2,24 @@
 
 Visfor'un müşteri kayıtlarını, kurumsal evraklarını, projelerini, departman iş akışlarını, görevlerini, stratejik hedeflerini, finans görünümünü ve çözüm ortaklarını tek bir web uygulamasında yöneten sistem.
 
-> **Durum:** Geliştirme fazları `PROMPT_INDEX.md` sırasına göre yürütülüyor. Aşağıdaki tablo günceldir.
+> **Durum (2026-11-20):** Prompt 00–17'in tamamı geliştirildi, test edildi ve ana dalda CI-yeşil.
+> **164 test / 664 assertion** · pint + Larastan + tsc + build + migration smoke PASS · GitHub Actions success.
 
 | Faz | Kapsam | Durum |
 |---|---|---|
 | 0 | Keşif, uygulama planı, proje iskeleti, ortamlar, CI | ✅ Tamamlandı |
-| 1 | Tasarım sistemi, kimlik/RBAC/audit, CRM, evrak, pipeline/proje, görev, OKR, finans, dashboard | 🔧 Devam ediyor |
-| 2 | Check-Up kural motoru, fırsat havuzu, çözüm ortağı, müşteri portalı, REST API/Webhook, canlıya geçiş | ⏳ Bekliyor |
+| 1 | Tasarım sistemi, kimlik/RBAC/audit, CRM, evrak, pipeline/proje, görev, OKR, finans, dashboard | ✅ Tamamlandı |
+| 2 | Check-Up kural motoru, fırsat havuzu + dönüşüm, çözüm ortağı/komisyon, müşteri portalı, REST API/Webhook, release hardening | ✅ Tamamlandı |
+
+### Canlıya geçiş öncesi müşteri kararları (P0)
+1. Check-Up soru seti + cevap-hizmet karar tablosu (ADR-0010)
+2. 12 hedef adları + ilerleme formülleri (ADR-0009)
+3. Finans P&L/runway formüllerinin onayı (ADR-0005)
+4. Fırsat statü adları + mükerrer kuralı (ADR-0011)
+5. Portal canlıya alma kararı (ADR-0014)
+6. Hizmet katalogu/aşama adları + zorunlu evrak türleri (ADR-0007/0012)
+
+Operasyonel dokümanlar: [SECURITY_REVIEW](docs/SECURITY_REVIEW.md) · [PERFORMANCE_BASELINE](docs/PERFORMANCE_BASELINE.md) · [BACKUP_RESTORE](docs/BACKUP_RESTORE.md) · [PRODUCTION_RUNBOOK](docs/PRODUCTION_RUNBOOK.md) · [RELEASE_NOTES_FAZ1](docs/RELEASE_NOTES_FAZ1.md) · [UAT senaryoları](docs/TEST_STRATEGY.md)
 
 ## Teknoloji
 
