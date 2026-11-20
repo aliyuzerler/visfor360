@@ -21,6 +21,13 @@ interface Recommendation {
     reasons: string[];
 }
 
+const importToOpportunity = (resultId: number) => {
+    router.post(route('checkups.import', resultId), {}, {
+        onSuccess: () => toast.success('Öneriler fırsat havuzuna aktarıldı.'),
+        onError: () => toast.error('Aktarım yetkiniz yok.'),
+    });
+};
+
 /** Check-Up form + sonuç: hangi cevap/kural nedeniyle hangi hizmet önerildi. */
 export default function CheckupShow({
     session,
@@ -36,12 +43,13 @@ export default function CheckupShow({
         template: { id: number; title: string; version: number; is_example: boolean; questions: Question[] };
     };
     result: {
+        id: number;
         recommendations: Recommendation[];
         rule_trace: { rule_id: number | null; label: string | null; matched: boolean; failed_conditions: string[]; invalid_answers: string[] }[];
         engine_version: string;
         deterministic_hash: string;
     } | null;
-    can: { complete: boolean };
+    can: { complete: boolean; importToOpportunity: boolean };
 }) {
     const form = useForm(session.answers as Record<string, string>);
 
@@ -128,6 +136,15 @@ export default function CheckupShow({
                         <EmptyState title="Sonuç yok" description="Oturum tamamlandığında öneriler burada görüntülenir." />
                     ) : (
                         <>
+                            {can.importToOpportunity && result.recommendations.length > 0 && (
+                                <button
+                                    type="button"
+                                    onClick={() => importToOpportunity(result.id)}
+                                    className="mb-3 rounded-md border border-primary px-3 py-1.5 text-sm text-primary hover:bg-primary/10"
+                                >
+                                    Önerileri fırsat havuzuna aktar
+                                </button>
+                            )}
                             {result.recommendations.length === 0 ? (
                                 <p className="rounded-xl border border-border bg-surface p-4 text-sm text-muted-foreground" role="note">
                                     Kural koşullarına uyan cevap yok; hizmet önerisi üretilmedi.

@@ -7,6 +7,7 @@ use App\Domain\Checkups\Actions\CheckupService;
 use App\Domain\Checkups\Models\CheckupSession;
 use App\Domain\Checkups\Models\CheckupTemplate;
 use App\Domain\Customers\Models\Customer;
+use App\Domain\Opportunities\Models\Opportunity;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -122,6 +123,7 @@ class CheckupController extends Controller
                 ],
             ],
             'result' => $result !== null ? [
+                'id' => $result->id,
                 'recommendations' => $result->recommendations,
                 'rule_trace' => $result->rule_trace,
                 'engine_version' => $result->engine_version,
@@ -129,6 +131,7 @@ class CheckupController extends Controller
             ] : null,
             'can' => [
                 'complete' => $session->status === 'draft' && auth()->user()->can('create', CheckupSession::class),
+                'importToOpportunity' => auth()->user()->can('create', Opportunity::class),
             ],
         ]);
     }

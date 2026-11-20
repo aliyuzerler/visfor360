@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * Yalnız Opportunity ÖNERİSİ içerir; proje/task üretmez (Prompt 11 sınırı).
  *
  * @property CheckupSession $session
+ * @property array<int, array<string, mixed>> $recommendations
+ * @property array<int, array<string, mixed>> $rule_trace
  */
 class CheckupResult extends Model
 {

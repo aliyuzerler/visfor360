@@ -12,6 +12,7 @@ use App\Http\Controllers\Documents\DocumentController;
 use App\Http\Controllers\Finance\FinanceController;
 use App\Http\Controllers\Goals\GoalController;
 use App\Http\Controllers\HealthController;
+use App\Http\Controllers\Opportunities\OpportunityController;
 use App\Http\Controllers\PlaceholderController;
 use App\Http\Controllers\Projects\PipelineController;
 use App\Http\Controllers\Projects\ProjectController;
@@ -134,6 +135,15 @@ Route::middleware(['auth'])->prefix('app')->group(function (): void {
         ->middleware('can:create,App\\Domain\\Checkups\\Models\\CheckupSession')->name('checkups.complete');
     Route::get('/settings/checkups', [CheckupController::class, 'templates'])
         ->middleware('can:manage,App\\Domain\\Checkups\\Models\\CheckupTemplate')->name('settings.checkups.index');
+
+    // Fırsat Havuzu (Prompt 12) — statü seti ÖRNEK (ADR-0011)
+    Route::get('/opportunities', [OpportunityController::class, 'index'])->name('opportunities.index');
+    Route::get('/opportunities/{opportunity}', [OpportunityController::class, 'show'])
+        ->middleware('can:view,opportunity')->name('opportunities.show');
+    Route::patch('/opportunities/{opportunity}/decide', [OpportunityController::class, 'decide'])
+        ->middleware('can:decide,opportunity')->name('opportunities.decide');
+    Route::post('/checkups/{result}/import', [OpportunityController::class, 'importFromCheckup'])
+        ->middleware('can:create,App\\Domain\\Opportunities\\Models\\Opportunity')->name('checkups.import');
 
     // Finans (Prompt 09) — resmi muhasebe değildir (SRS notu)
     Route::get('/finance', [FinanceController::class, 'index'])

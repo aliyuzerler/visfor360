@@ -10,6 +10,7 @@ use App\Domain\Documents\Models\Document;
 use App\Domain\Finance\Models\FinancialEntry;
 use App\Domain\Goals\Models\StrategicGoal;
 use App\Domain\Identity\PermissionRegistry;
+use App\Domain\Opportunities\Models\Opportunity;
 use App\Domain\Projects\Models\Project;
 use App\Domain\Tasks\Models\Task;
 use App\Models\AuditEvent;
@@ -26,6 +27,7 @@ use App\Policies\Identity\AuditEventPolicy;
 use App\Policies\Identity\DepartmentPolicy;
 use App\Policies\Identity\RolePolicy;
 use App\Policies\Identity\UserPolicy;
+use App\Policies\Opportunities\OpportunityPolicy;
 use App\Policies\Projects\ProjectPolicy;
 use App\Policies\Tasks\TaskPolicy;
 use Illuminate\Cache\RateLimiting\Limit;
@@ -70,6 +72,7 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(FinancialEntry::class, FinancialEntryPolicy::class);
         Gate::policy(CheckupTemplate::class, CheckupPolicy::class);
         Gate::policy(CheckupSession::class, CheckupPolicy::class);
+        Gate::policy(Opportunity::class, OpportunityPolicy::class);
 
         // Her registry izni için server-side Gate tanımı.
         // Yetki yalnızca UI'da gizlenmez; her route ek olarak can: middleware ve
